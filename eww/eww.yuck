@@ -1,0 +1,103 @@
+(include "/home/riddle/.config/eww/variables.yuck")
+(include "/home/riddle/.config/eww/wip.yuck")
+
+(defwindow powermenu
+        :exclusive true
+        :monitor 0
+        :geometry
+        (geometry
+	    :width "100%"
+	    :height "10"
+        :anchor "top center")
+(centerbox
+	(box :space-evenly false
+		(workspaces)
+		(cpustatus)
+		(ramstatus)
+		(diskstatus)
+    )
+	(caltime)
+	(box :space-evenly false :halign "end"
+		(button
+		(label :text signalstatus))
+		(button
+		(label :text cache))
+		(button
+		(label :text nowplaying))
+		(sourcev2)
+		(sinkv2)
+		(switch)
+		(mediabar)		
+;;		(button
+;;		(label :text internetlogo))
+    )
+)
+)
+
+(defwidget mediabar []
+	(box
+	(button :onclick "playerctl previous"
+	(label  :text ""))
+	(button :onclick "playerctl play-pause"
+	(label  :text playpause))
+	(button :onclick "playerctl next"
+	(label  :text "")))
+)
+
+(defwidget cpustatus []
+	(button
+	(overlay
+	(circular-progress :value {round(EWW_CPU.avg, 0)} :thickness 9 :start-at 75)
+	(label :text "")))
+)
+
+(defwidget ramstatus []
+	(button
+	(overlay
+	(circular-progress :value {round(EWW_RAM.used_mem_perc, 0)} :thickness 9 :start-at 75)
+	(label :text "")))
+)
+
+(defwidget diskstatus []
+	(button
+	(overlay
+	(circular-progress :value {round(EWW_DISK["/"].used_perc, 0)} :thickness 9 :start-at 75)
+	(label :text "")))
+)
+
+(defwidget switch []
+	(box
+	(button :timeout 1000 :onclick "pacmd set-default-sink $(pacmd list-sinks | awk '(/    index/) {print $2}')"
+	(label  :text outputlogo)))
+)
+
+(defwidget sinkv2 []
+(eventbox :onhover "${EWW_CMD} update sinktoggle=true"
+          :onhoverlost "${EWW_CMD} update sinktoggle=false"
+          :onscroll "~/.config/eww/scripts/superdupervolumecontrol.sh sink {}"
+(button :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+(box :space-evenly false
+(label :text sinklogo)
+(revealer :transition "slideright"
+          :reveal sinktoggle
+(label :text "%${sinkvolume*10}"))
+))))
+
+(defwidget sourcev2 []
+(eventbox :onhover "${EWW_CMD} update sourcetoggle=true"
+          :onhoverlost "${EWW_CMD} update sourcetoggle=false"
+          :onscroll "~/.config/eww/scripts/superdupervolumecontrol.sh source {}"
+(button :onclick "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+(box :space-evenly false
+(label :text sourcelogo)
+(revealer :transition "slideright"
+          :reveal sourcetoggle
+(label :text "%${sourcevolume*10}"))
+))))
+
+(defwidget workspaces []
+(box
+(for i in "[1,2,3,4,5,6,7,8,9,10]"
+(button :active {jq(workspacelist,'any(.id==${i})')} :onclick "hyprctl dispatch workspace ${i} > /dev/null"
+;;(button :active {matches(workspacelist, i)} :onclick "hyprctl dispatch workspace ${i} > /dev/null" ;; as long as workspace id is less then 10, this also works, otherwise 10 makes 1 active as well, as they both have 1 xD
+    (label :text i)))))
