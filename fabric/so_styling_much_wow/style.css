@@ -1,0 +1,81 @@
+@import url("colors.css");
+
+#icon {
+    padding: 0px 4px;
+}
+
+#revealerLabel {
+    min-width: 2.6rem;
+}
+
+#percentageLabel {
+    min-width: 2.6rem;
+}
+
+#hardwareLabel {
+    min-width: 2.9rem;
+}
+
+#cacheLabel {
+    min-width: 4.8rem;
+}
+
+#week_days,
+#date,
+#invalid_date {
+    min-width: 2rem
+}
+
+
+.cool-button,
+#stack_switcher {
+    box-shadow: none;
+    background: none;
+    border-color: transparent;
+}
+
+.cool-button:hover,
+#stack_switcher:hover {
+    /* box-shadow: initial;
+    background: initial; */
+    border-color: @half_gray;
+}
+
+.cool-button:active,
+.app_launcher:focus,
+#stack_switcher:active {
+    border-color: white;
+}
+
+.workspacebutton.active {
+    color: @nice_green;
+}
+
+.passive_power_label {
+    /* transition: 250ms ease-in; */
+
+    min-width: 4.6rem;
+}
+
+.active_power_label {
+    /* color: unset; */
+    min-width: 4.6rem;
+}
+
+
+
+.workspacebutton.empty,
+.passive_nowplaying_label,
+.passive_power_label,
+#invalid_date {
+    color: @passive_color;
+}
+
+.app_launcher {
+    background: none
+}
+
+#stack_switcher:checked {
+    border-color: @nice_green;
+    background-color: @nice_green;
+}
