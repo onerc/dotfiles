@@ -31,8 +31,8 @@ class AppLauncher(Overlay):
         )
         self.entry.delete_text(0, -1)
 
-        # FIXME
-        from main import window_focus
+        # FIXME?
+        from utils import window_focus
 
         window_focus("hide")
 

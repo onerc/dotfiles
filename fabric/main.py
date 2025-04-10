@@ -2,8 +2,7 @@ from modules.audio import SpeakerVolume, MicVolume, AudioOutputSwitch
 from modules.nowplaying import NowPlaying
 from modules.overrides import OverriddenDateTime, OverriddenWorkspaces
 from modules.power import Power
-from modules.popup import pop_up
-from modules.applauncher import app_launcher
+from utils import window_focus
 from imports import *
 
 
@@ -34,18 +33,6 @@ class barbar(WaylandWindow):
 
         self.add(self.centerbox)
         self.show_all()
-
-
-def window_focus(action):
-    match action:
-        case "show":
-            pop_up.set_keyboard_mode("exclusive")
-            app_launcher.entry.grab_focus()
-            pop_up.show()
-        case "hide":
-            pop_up.set_keyboard_mode("on-demand")
-            app_launcher.entry.grab_remove()
-            pop_up.hide()
 
 
 if __name__ == "__main__":
