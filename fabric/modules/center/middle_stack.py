@@ -1,4 +1,16 @@
 from imports import *
+from config import Config
+
+from modules.center.pop_up import pop_up
+
+
+class OverriddenDateTime(DateTime):
+    def __init__(self):
+        super().__init__(formatters="%H:%M", style_classes="cool-button")
+
+    def do_handle_press(self, _, event, *args):
+        if event.button == 1:
+            pop_up.hide() if pop_up.get_visible() else pop_up.show()
 
 
 class AppLauncher(Overlay):
@@ -31,15 +43,21 @@ class AppLauncher(Overlay):
         )
         self.entry.delete_text(0, -1)
 
-        # FIXME?
-        from utils import window_focus
-
-        window_focus("hide")
-
-
-app_launcher = AppLauncher()
+        exec_shell_command_async(
+            "python -m fabric execute default \"the_bar.window_focus('hide')\""
+        )
 
 
-# on_focus_in_event=lambda *args: self.entry.set_buffer(
-#     Gtk.EntryBuffer(text=match[0])
-# ),
+class MiddleStack(Stack):
+    def __init__(self):
+        self.app_launcher = AppLauncher()
+        self.overridden_datetime = OverriddenDateTime()
+        super().__init__(
+            transition_duration=Config.transition_duration,
+            transition_type="slide-up-down",
+        )
+        self.add_named(self.overridden_datetime, name="date_time")
+        self.add_named(self.app_launcher, name="app_launcher")
+
+
+middle_stack = MiddleStack()

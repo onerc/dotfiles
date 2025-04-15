@@ -70,7 +70,6 @@ class HardwareInfo(Box):
                 Box(children=[self.network_icon_stack, self.network_label]),
             ],
         )
-
         psutil_fabricator.connect("changed", self.label_handler)
         amdgpu_top_fabricator.connect("changed", self.gpu_label_handler)
         cache_fabricator.connect("changed", self.cache_label_handler)

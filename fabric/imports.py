@@ -34,5 +34,3 @@ from time import sleep
 import json
 import psutil
 import requests
-
-from urllib.parse import urlparse, parse_qs

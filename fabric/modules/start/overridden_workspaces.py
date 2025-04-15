@@ -1,4 +1,3 @@
-from modules.calendar_popup import CalendarPopUp
 from imports import *
 
 
@@ -22,13 +21,3 @@ class OverriddenWorkspaces(Workspaces):
 
     def scroll_handler(self, _, event):
         pass
-
-
-class OverriddenDateTime(DateTime):
-    def __init__(self):
-        self.calendar = CalendarPopUp()
-        super().__init__(formatters="%H:%M", style_classes="cool-button")
-
-    def do_handle_press(self, _, event, *args):
-        if event.button == 1:
-            self.calendar.hide() if self.calendar.get_visible() else self.calendar.show()

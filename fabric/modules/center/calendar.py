@@ -2,7 +2,7 @@ from imports import *
 from config import Config
 
 
-class CalendarPopUp(WaylandWindow):
+class theCalendar(Box):
     def __init__(self):
         self.current_time = datetime.now()
         self.shown_year = self.current_time.year
@@ -15,37 +15,32 @@ class CalendarPopUp(WaylandWindow):
             children=self.create_grid(self.current_time.year, self.current_time.month),
         )
 
-        self.calendar_box = Box(
-            orientation="v",
-            children=[
-                self.calendar_label,
-                Box(
-                    children=[
-                        Label(label=f"{day[:-1]}", name="week_days") for day in day_abbr
-                    ]
-                ),
-                self.month_stack,
-            ],
-        )
-
         super().__init__(
-            anchor="top center",
-            visible=False,
-            child=Box(
-                children=[
-                    Button(
-                        label="<",
-                        style_classes="cool-button",
-                        on_clicked=lambda *args: self.cycle_handler("previous"),
-                    ),
-                    self.calendar_box,
-                    Button(
-                        label=">",
-                        style_classes="cool-button",
-                        on_clicked=lambda *args: self.cycle_handler("next"),
-                    ),
-                ]
-            ),
+            children=[
+                Button(
+                    label="<",
+                    style_classes="cool-button",
+                    on_clicked=lambda *args: self.cycle_handler("previous"),
+                ),
+                Box(
+                    orientation="v",
+                    children=[
+                        self.calendar_label,
+                        Box(
+                            children=[
+                                Label(label=f"{day[:-1]}", name="week_days")
+                                for day in day_abbr
+                            ]
+                        ),
+                        self.month_stack,
+                    ],
+                ),
+                Button(
+                    label=">",
+                    style_classes="cool-button",
+                    on_clicked=lambda *args: self.cycle_handler("next"),
+                ),
+            ]
         )
 
     def update_calendar(self, year_to_show, month_to_show, direction):
