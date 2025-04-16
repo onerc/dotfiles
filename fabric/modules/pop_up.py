@@ -1,8 +1,8 @@
 from imports import *
 from config import Config
 
-from modules.center.hardware_info import HardwareInfo
-from modules.center.calendar import theCalendar
+from modules.hardware_info import HardwareInfo
+from modules.calendar import theCalendar
 
 
 class PopUp(WaylandWindow):

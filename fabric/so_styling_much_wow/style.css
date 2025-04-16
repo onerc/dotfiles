@@ -38,13 +38,13 @@
 #stack_switcher:hover {
     /* box-shadow: initial;
     background: initial; */
-    border-color: @half_gray;
+    border-color: @dark_main_color;
 }
 
 .cool-button:active,
 .app_launcher:focus,
 #stack_switcher:active {
-    border-color: white;
+    border-color: @main_color;
 }
 
 .workspacebutton.active {

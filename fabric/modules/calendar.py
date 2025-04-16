@@ -110,6 +110,9 @@ class theCalendar(Box):
 
     @staticmethod
     def add_padding(list_to_pad):
+        """
+        Pads every month to 42 days so every grid is 7x6
+        """
         while True:
             if len(list_to_pad) == 42:
                 break

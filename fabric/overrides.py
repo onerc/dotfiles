@@ -1,5 +1,16 @@
 from imports import *
 
+from modules.pop_up import pop_up
+
+
+class OverriddenDateTime(DateTime):
+    def __init__(self):
+        super().__init__(formatters="%H:%M", style_classes="cool-button")
+
+    def do_handle_press(self, _, event, *args):
+        if event.button == 1:
+            pop_up.hide() if pop_up.get_visible() else pop_up.show()
+
 
 class OverriddenWorkspaceButton(WorkspaceButton):
     def do_bake_label(self):
