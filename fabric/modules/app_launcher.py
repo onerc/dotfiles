@@ -33,7 +33,7 @@ class AppLauncher(WaylandWindow):
         )
 
     def on_activate(self, entry):
-        Hyprland.send_command_(
+        Hyprland.send_command(
             f"dispatch exec {self.ghost_entry.get_placeholder_text()}"
         )
         self.clear()
