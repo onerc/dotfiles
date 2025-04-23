@@ -1,5 +1,4 @@
 from imports import *
-from config import Config
 
 
 class SpeakerVolume(Button):
@@ -65,12 +64,13 @@ class SpeakerVolume(Button):
         self.audio.speaker.muted = not self.audio.speaker.muted
 
     def label_and_icon_handler(self, *args):
-        if self.audio.speaker.name == Config.unwanted_sink:
-            label = "N/A"
-            icon = "muted"
-        else:
-            label = f"{round(self.audio.speaker.volume)}"
-            icon = self.icon_name_handler()
+        match self.audio.speaker.name:
+            case Config.unwanted_sink:
+                label = "N/A"
+                icon = "muted"
+            case _:
+                label = f"{round(self.audio.speaker.volume)}"
+                icon = self.icon_name_handler()
 
         self.label_stack.set_visible_child_name(label)
         self.icon_stack.set_visible_child_name(icon)

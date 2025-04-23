@@ -1,5 +1,4 @@
 from imports import *
-from config import Config
 
 
 def psutil_poll(fabricator):

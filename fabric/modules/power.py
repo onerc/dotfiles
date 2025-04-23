@@ -1,5 +1,4 @@
 from imports import *
-from config import Config
 
 
 class Power(Button):
@@ -63,12 +62,12 @@ class Power(Button):
 
     def on_scroll(self, widget, event):
         self.is_shutdown = not event.direction
-        self.icon_stack.set_visible_child_name(
-            "Shutdown" if self.is_shutdown else "Reboot"
-        )
-        self.label_stack.set_visible_child_name(
-            "Shutdown" if self.is_shutdown else "Reboot"
-        )
+        if self.is_shutdown:
+            self.icon_stack.set_visible_child_name("Shutdown")
+            self.label_stack.set_visible_child_name("Shutdown")
+        else:
+            self.icon_stack.set_visible_child_name("Reboot")
+            self.label_stack.set_visible_child_name("Reboot")
 
     def lock_handler(self, widget, event, is_pressed):
         if event.button == 3:

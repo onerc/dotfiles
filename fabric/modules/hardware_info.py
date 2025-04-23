@@ -1,5 +1,4 @@
 from imports import *
-from config import Config
 
 from fabricators import psutil_fabricator, amdgpu_top_fabricator, cache_fabricator
 

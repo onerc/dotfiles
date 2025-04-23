@@ -1,5 +1,4 @@
 from imports import *
-from config import Config
 
 from modules.hardware_info import HardwareInfo
 from modules.calendar import theCalendar

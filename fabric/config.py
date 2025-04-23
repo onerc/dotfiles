@@ -1,4 +1,4 @@
-from loguru import logger
+from imports import *
 
 
 class Config:
@@ -7,6 +7,7 @@ class Config:
     city_name = ""
 
     # hardware
+    favorite_monitor_index = 0
     network_interface = "enp6s0"
     psutil_cpu = "coretemp"
     psutil_gpu = "amdgpu"

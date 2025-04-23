@@ -10,7 +10,7 @@ class AppLauncher(WaylandWindow):
 
         self.ghost_entry = Entry()
         self.ghost_entry.set_property("xalign", 1)
-        # Prevents being able to Tab or Shift-Tab to ghost_entry and avoids the need of "app_launcher.entry.grab_focus()"
+        # Prevents being able to Tab or Shift-Tab to ghost_entry and avoids the need of grabbing focus to actual entry
         self.ghost_entry.set_property("can_focus", False)
         self.entry = Entry(
             notify_text=lambda entry, *args: self.fuzzy_match(entry.get_text()),
@@ -18,13 +18,15 @@ class AppLauncher(WaylandWindow):
             style_classes="app_launcher",
         )
         super().__init__(
-            keyboard_mode="exclusive",
             anchor="top center",
-            visible=False,
             child=Overlay(
                 child=self.ghost_entry,
                 overlays=self.entry,
             ),
+            keyboard_mode="exclusive",
+            monitor=Config.favorite_monitor_index,
+            title="app-launcher",
+            visible=False,
         )
 
     def fuzzy_match(self, entry):
