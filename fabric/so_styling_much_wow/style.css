@@ -42,7 +42,7 @@
 }
 
 .cool-button:active,
-.app_launcher:focus,
+.app_launcher_entry:focus,
 #stack_switcher:active {
     border-color: @main_color;
 }
@@ -62,8 +62,6 @@
     min-width: 4.6rem;
 }
 
-
-
 .workspacebutton.empty,
 .passive_nowplaying_label,
 .passive_power_label,
@@ -71,7 +69,11 @@
     color: @passive_color;
 }
 
-.app_launcher {
+.app_launcher_window,
+/* removes edges */
+.app_launcher_entry
+/* makes second entry visible */
+    {
     background: none
 }
 

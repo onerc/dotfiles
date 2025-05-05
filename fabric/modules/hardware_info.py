@@ -51,22 +51,27 @@ class HardwareInfo(Box):
             orientation="v",
             children=[
                 Box(
+                    v_expand=True,
                     children=[
                         self.cpu_usage,
                         self.cpu_icon,
                         self.cpu_temp,
-                    ]
+                    ],
                 ),
                 Box(
+                    v_expand=True,
                     children=[
                         self.gpu_usage,
                         self.gpu_icon,
                         self.gpu_temp,
-                    ]
+                    ],
                 ),
-                Box(children=[self.ram_icon, self.ram_usage]),
-                Box(children=[self.cache_icon, self.cache_label]),
-                Box(children=[self.network_icon_stack, self.network_label]),
+                Box(v_expand=True, children=[self.ram_icon, self.ram_usage]),
+                Box(v_expand=True, children=[self.cache_icon, self.cache_label]),
+                Box(
+                    v_expand=True,
+                    children=[self.network_icon_stack, self.network_label],
+                ),
             ],
         )
         psutil_fabricator.connect("changed", self.label_handler)

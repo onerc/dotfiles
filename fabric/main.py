@@ -5,6 +5,7 @@ from modules.power import Power
 from overrides import OverriddenDateTime, OverriddenWorkspaces
 from imports import *
 
+# imported so they are accessible with cli
 from modules.app_launcher import app_launcher
 from modules.pop_up import pop_up
 

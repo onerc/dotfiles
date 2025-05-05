@@ -15,7 +15,7 @@ class AppLauncher(WaylandWindow):
         self.entry = Entry(
             notify_text=lambda entry, *args: self.fuzzy_match(entry.get_text()),
             on_activate=self.on_activate,
-            style_classes="app_launcher",
+            style_classes="app_launcher_entry",
         )
         super().__init__(
             anchor="top center",
@@ -25,6 +25,7 @@ class AppLauncher(WaylandWindow):
             ),
             keyboard_mode="exclusive",
             monitor=Config.favorite_monitor_index,
+            style_classes="app_launcher_window",
             title="app-launcher",
             visible=False,
         )
@@ -38,11 +39,11 @@ class AppLauncher(WaylandWindow):
         Hyprland.send_command(
             f"dispatch exec {self.ghost_entry.get_placeholder_text()}"
         )
-        self.clear()
-        self.hide()
+        self.clear_and_hide()
 
-    def clear(self):
+    def clear_and_hide(self):
         self.entry.delete_text(0, -1)
+        self.hide()
 
 
 app_launcher = AppLauncher()

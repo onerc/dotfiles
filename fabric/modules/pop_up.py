@@ -19,6 +19,7 @@ class PopUp(WaylandWindow):
             button.set_hexpand(True)
             button.set_name("stack_switcher")
         super().__init__(
+            title="big-popup",
             anchor="top center",
             visible=False,
             child=Box(orientation="v", children=[self.stack_switcher, self.stack]),

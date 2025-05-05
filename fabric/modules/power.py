@@ -3,29 +3,30 @@ from imports import *
 
 class Power(Button):
     def __init__(self):
-        self.is_shutdown = True
+        self.current_action = "shutdown"
         self.is_locked = True
+        for name in ["icon_stack", "label_stack"]:
+            setattr(
+                self,
+                name,
+                Stack(
+                    transition_type="slide-up-down",
+                    transition_duration=Config.transition_duration,
+                ),
+            )
 
-        self.icon_stack = Stack(
-            transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
-        )
-        self.label_stack = Stack(
-            transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
-        )
-
-        for action in ["Shutdown", "Reboot"]:
+        for action in ["shutdown", "reboot"]:
             self.icon_stack.add_named(
                 Image(
-                    icon_name=f"system-{action.lower()}-symbolic",
+                    icon_name=f"system-{action}-symbolic",
                     icon_size=Config.icon_size,
                     name="icon",
                 ),
                 name=action,
             )
             self.label_stack.add_named(
-                Label(label=action, style_classes="passive_power_label"), name=action
+                Label(label=action.capitalize(), style_classes="passive_power_label"),
+                name=action,
             )
 
         self.revealer = Revealer(
@@ -39,6 +40,7 @@ class Power(Button):
             on_leave_notify_event=lambda *args: self.revealer.set_reveal_child(
                 not self.is_locked
             ),
+            # if there is not a focused window this ^ doesnt work properly?
             on_button_press_event=lambda *args: self.lock_handler(
                 *args, is_pressed=True
             ),
@@ -58,16 +60,12 @@ class Power(Button):
 
     def on_clicked(self):
         if not self.is_locked:
-            exec_shell_command_async("shutdown now" if self.is_shutdown else "reboot")
+            exec_shell_command_async(f"{self.current_action} now")
 
     def on_scroll(self, widget, event):
-        self.is_shutdown = not event.direction
-        if self.is_shutdown:
-            self.icon_stack.set_visible_child_name("Shutdown")
-            self.label_stack.set_visible_child_name("Shutdown")
-        else:
-            self.icon_stack.set_visible_child_name("Reboot")
-            self.label_stack.set_visible_child_name("Reboot")
+        self.current_action = "shutdown" if not event.direction else "reboot"
+        self.icon_stack.set_visible_child_name(self.current_action)
+        self.label_stack.set_visible_child_name(self.current_action)
 
     def lock_handler(self, widget, event, is_pressed):
         if event.button == 3:

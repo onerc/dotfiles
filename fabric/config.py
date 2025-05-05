@@ -2,10 +2,9 @@ from imports import *
 
 
 class Config:
-    # weather
-    api_key = "d07186c0c823985f93cf8b2b1dc0c387"
-    city_name = ""
-
+    # window manager
+    number_of_workspaces = 10
+    
     # hardware
     favorite_monitor_index = 0
     network_interface = "enp6s0"
