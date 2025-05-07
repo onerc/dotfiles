@@ -4,7 +4,7 @@
 # edit "~/.local/lib/python3.10/site-packages/aigpy/tagHelper.py", change 'return ", ".join(obj)' to "return obj" to prevent tidal-dl from joining artist names
 # https://github.com/AIGMix/AIGPY/blob/f4e4f58f327db06e62a9abafc770f702990da0ea/aigpy/tagHelper.py#L55
 
-# edit "~/.local/lib/python3.10/site-packages/aigpy/tagHelper.py", empty the args of "save" method prevent covers getting embedded to audio files
+# edit "~/.local/lib/python3.10/site-packages/tidal_dl/download.py", empty the args of "save" method prevent covers getting embedded to audio files
 # https://github.com/yaronzz/Tidal-Media-Downloader/blob/8352f0f6e23ac2cf96fc25b26bab7dce2d75cfa1/TIDALDL-PY/tidal_dl/download.py#L72
 
 {
