@@ -1,0 +1,31 @@
+(deflisten sinkvolume   :initial 0 `~/.config/eww/scripts/getinfo.sh sinkvol`)
+
+(deflisten sourcevolume :initial 0 `~/.config/eww/scripts/getinfo.sh sourcevol`)
+
+
+(deflisten sinklogo     `~/.config/eww/scripts/getinfo.sh sinklogo`)
+
+(deflisten sourcelogo   `~/.config/eww/scripts/getinfo.sh sourcelogo`)
+
+
+(deflisten outputlogo   `~/.config/eww/scripts/getinfo.sh output`)
+
+(deflisten playpause    `~/.config/eww/scripts/getinfo.sh playpause`)
+
+(deflisten nowplaying   `~/.config/eww/scripts/getinfo.sh nowplaying`)
+
+(deflisten internetlogo `~/.config/eww/scripts/getinfo.sh internetlogo`)
+
+(deflisten signalstatus `~/.config/eww/scripts/getinfo.sh signalstatus`)
+
+
+(defpoll workspacelist  :interval "0.2s" :initial "[]" `hyprctl workspaces -j`)
+
+(defpoll time           :interval "1s" `date +'%H:%M:%S'`)
+
+(defpoll cache          :interval "1s" `cat /proc/meminfo | awk '/Dirty/{print $2$3}'`)
+
+
+(defvar sinktoggle false)
+(defvar sourcetoggle false)
+(defvar caltoggle false)

@@ -1,0 +1,30 @@
+# edit "~/.local/lib/python3.10/site-packages/aigpy/pathHelper.py", comment out path.replace(), path.rstrip() and path.strip() lines to prevent tidal-dl from renaming files
+# https://github.com/AIGMix/AIGPY/blob/f4e4f58f327db06e62a9abafc770f702990da0ea/aigpy/pathHelper.py#L70-L82
+
+# edit "~/.local/lib/python3.10/site-packages/aigpy/tagHelper.py", change 'return ", ".join(obj)' to "return obj" to prevent tidal-dl from joining artist names
+# https://github.com/AIGMix/AIGPY/blob/f4e4f58f327db06e62a9abafc770f702990da0ea/aigpy/tagHelper.py#L55
+
+# edit "~/.local/lib/python3.10/site-packages/aigpy/tagHelper.py", empty the args of "save" method prevent covers getting embedded to audio files
+# https://github.com/yaronzz/Tidal-Media-Downloader/blob/8352f0f6e23ac2cf96fc25b26bab7dce2d75cfa1/TIDALDL-PY/tidal_dl/download.py#L72
+
+{
+    "albumFolderFormat": "{ArtistName}/({AlbumYear}) {AlbumTitle} {Flag}[{AudioQuality}]",
+    "apiKeyIndex": 4,
+    "audioQuality": "HiFi",
+    "checkExist": true,
+    "downloadDelay": false,
+    "downloadPath": "/media/bigboy/temporary",
+    "includeEP": true,
+    "language": "0",
+    "lyricFile": false,
+    "multiThread": false,
+    "playlistFolderFormat": "Playlist/{PlaylistName} [{PlaylistUUID}]",
+    "saveAlbumInfo": false,
+    "saveCovers": true,
+    "showProgress": true,
+    "showTrackInfo": true,
+    "trackFileFormat": "{TrackNumber}. {TrackTitle}",
+    "usePlaylistFolder": true,
+    "videoFileFormat": "{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}",
+    "videoQuality": "P1080"
+}
