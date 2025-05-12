@@ -1,0 +1,79 @@
+@import url("colors.css");
+
+#icon {
+    padding: 0px 4px;
+}
+
+.revealer-label {
+    min-width: 2.6rem;
+}
+
+#hardware-label {
+    min-width: 2.9rem;
+}
+
+#cache-label {
+    min-width: 4.8rem;
+}
+
+.calendar-label {
+    min-width: 8rem;
+}
+
+#week-days,
+.date {
+    min-width: 2rem
+}
+
+.power-label {
+    min-width: 4.6rem;
+}
+
+
+.cool-button,
+#stack-switcher {
+    box-shadow: none;
+    background: none;
+    border-color: transparent;
+}
+
+.cool-button:hover,
+#stack-switcher:hover {
+    border-color: @dark_main_color;
+}
+
+.cool-button:active,
+#app-launcher-entry:focus,
+#stack-switcher:active {
+    border-color: @main_color;
+}
+
+.workspace-button.active,
+.current-day {
+    color: @nice_green;
+}
+
+
+
+.workspace-button.empty,
+.passive-revealer-label,
+.invalid-date,
+.passive-power-label,
+.passive-now-playing-label {
+    color: @passive_color;
+}
+
+
+#app-launcher-window,
+/* removes edges */
+#app-launcher-entry
+
+/* makes second entry visible */
+    {
+    background: none
+}
+
+#stack-switcher:checked {
+    border-color: @nice_green;
+    background-color: @nice_green;
+}
