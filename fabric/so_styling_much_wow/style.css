@@ -29,41 +29,43 @@
     min-width: 2rem;
 }
 
-.power-label {
-    min-width: 4.6rem;
-}
 
 
-.cool-button,
-#stack-switcher {
+.cool-button {
     box-shadow: none;
     background: none;
     border-color: transparent;
 }
 
-.cool-button:hover,
-#stack-switcher:hover {
+.cool-button:hover {
     border-color: @dark_main_color;
 }
 
 .cool-button:active,
-#app-launcher-entry:focus,
-#stack-switcher:active {
+#app-launcher-entry:focus {
     border-color: @main_color;
 }
 
+
 .workspace-button.active,
-.current-day {
+.date.current {
     color: @nice_green;
 }
 
+#circular-progress {
+    border-color: @nice_green
+}
 
+#circular-progress>image {
+    color: initial
+}
 
+#circular-progress,
 .workspace-button.empty,
-.passive-revealer-label,
-.invalid-date,
-.passive-power-icon,
-.passive-now-playing-label {
+.power-icon.passive,
+.revealer-label.passive,
+.date.passive,
+.now-playing-label.passive {
     color: @passive_color;
 }
 
@@ -75,9 +77,4 @@
 /* makes second entry visible */
     {
     background: none;
-}
-
-#stack-switcher:checked {
-    border-color: @nice_green;
-    background-color: @nice_green;
 }

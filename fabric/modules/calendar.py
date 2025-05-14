@@ -13,7 +13,7 @@ class theCalendar(Box):
         )
         self.month_stack = Stack(
             transition_duration=Config.transition_duration,
-            transition_type="slide-up-down",
+            transition_type="slide-left-right",
             children=self.create_month_grid(
                 self.current_time.year, self.current_time.month
             ),
@@ -26,14 +26,14 @@ class theCalendar(Box):
                     children=[
                         Button(
                             h_expand=True,
-                            label="↑",
+                            label="←",
                             style_classes="cool-button",
                             on_clicked=lambda *args: self.cycle_handler("previous"),
                         ),
                         self.calendar_label,
                         Button(
                             h_expand=True,
-                            label="↓",
+                            label="→",
                             style_classes="cool-button",
                             on_clicked=lambda *args: self.cycle_handler("next"),
                         ),
@@ -82,7 +82,7 @@ class theCalendar(Box):
                     month_to_show = self.shown_month + 1
                     year_to_show = self.shown_year
 
-        self.update_calendar(year_to_show, month_to_show, direction)
+        self.update_calendar(year_to_show, month_to_show, direction)  # type:ignore
 
     def create_month_grid(self, year, month):
         month = [day for day in Calendar().itermonthdays3(year, month)]
@@ -127,9 +127,22 @@ class theCalendar(Box):
         )
 
         return (
-            ["current-day", "date"]
+            ["date", "current"]
             if shown_date == current_date
-            else ["invalid-date", "date"]
+            else ["date", "passive"]
             if shown_date[1] != self.shown_month
             else ["date"]
         )
+
+
+class CalendarPopUp(WaylandWindow):
+    def __init__(self):
+        super().__init__(
+            title="big-popup",
+            anchor="top right",
+            visible=False,
+            child=theCalendar(),
+        )
+
+
+calendar_pop_up = CalendarPopUp()

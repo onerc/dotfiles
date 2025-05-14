@@ -1,7 +1,5 @@
 from imports import *
-from config import Config
-
-from modules.pop_up import pop_up
+from modules.calendar import calendar_pop_up
 
 
 class OverriddenDateTime(DateTime):
@@ -10,7 +8,7 @@ class OverriddenDateTime(DateTime):
 
     def do_handle_press(self, _, event, *args):
         if event.button == 1:
-            pop_up.hide() if pop_up.get_visible() else pop_up.show()
+            calendar_pop_up.hide() if calendar_pop_up.get_visible() else calendar_pop_up.show()
 
 
 # removing this and just styling the button causes them to get styled late when the bar is started

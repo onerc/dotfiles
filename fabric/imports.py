@@ -12,6 +12,7 @@ from fabric.utils.helpers import get_desktop_applications
 from fabric.widgets.box import Box
 from fabric.widgets.button import Button
 from fabric.widgets.centerbox import CenterBox
+from fabric.widgets.circularprogressbar import CircularProgressBar
 from fabric.widgets.datetime import DateTime
 from fabric.widgets.entry import Entry
 from fabric.widgets.image import Image
@@ -27,11 +28,12 @@ from gi.repository import Gtk, GLib
 from calendar import Calendar, day_abbr, month_name, monthrange
 from datetime import datetime
 
+from loguru import logger
 from pathlib import PurePath
 from thefuzz import process
 from time import sleep
-from loguru import logger
 import json
 import psutil
 
-from config import Config
+from config import *
+from utils import *

@@ -5,7 +5,7 @@ from fabricators import now_playing_fabricator
 class NowPlaying(Button):
     def __init__(self):
         self.now_playing_label = Label(
-            label="Nothing is playing", style_classes="passive-now-playing-label"
+            label="Nothing is playing", style_classes=["now-playing-label", "passive"]
         )
 
         super().__init__(
@@ -20,21 +20,15 @@ class NowPlaying(Button):
         self.add_events("scroll")
 
     def update_label(self, fabricator, value):
-        self.now_playing_label.set_label(self.label_handler(value))
-        try:
-            if value.split(r"\n")[-5] == "Playing":
-                self.now_playing_label.remove_style_class("passive-now-playing-label")
-            else:
-                raise IndexError
-        except IndexError:
-            self.now_playing_label.add_style_class("passive-now-playing-label")
+        status, *other_info = value.split(r"\n")
+        self.now_playing_label.set_label(self.label_handler(other_info))
+        toggle_style_class(self.now_playing_label, status != "Playing", "passive")
 
     @staticmethod
     def label_handler(value):
         try:
-            album, artist, status, position, title, volume, player_name = value.split(
-                r"\n"
-            )
+            album, artist, position, title, volume, player_name = value
+            # print(album, artist, status, position, title, volume, player_name)
             return (
                 f"{artist} - {title}"
                 if album  # if it's Jellyfin

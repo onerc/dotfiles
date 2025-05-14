@@ -17,7 +17,7 @@ class Power(Button):
                     icon_name=f"system-{action}-symbolic",
                     icon_size=Config.icon_size,
                     name="icon",
-                    style_classes="passive-power-icon",
+                    style_classes=["power-icon", "passive"],
                 ),
                 name=action,
             )
@@ -48,6 +48,4 @@ class Power(Button):
         if event.button == 3:
             self.is_locked = not is_pressed
             for child in self.icon_stack.get_children():
-                (child.remove_style_class if is_pressed else child.add_style_class)(
-                    "passive-power-icon"
-                )
+                toggle_style_class(child, self.is_locked, "passive")

@@ -94,12 +94,8 @@ class SpeakerVolume(Button):
         )
 
     def style_class_handler(self):
-        for children in self.label_stack:
-            (
-                children.add_style_class
-                if self.audio.speaker.muted
-                else children.remove_style_class
-            )("passive-revealer-label")
+        for child in self.label_stack:
+            toggle_style_class(child, self.audio.speaker.muted, "passive")
 
 
 class MicVolume(Button):
@@ -195,12 +191,8 @@ class MicVolume(Button):
         self.icon_stack.set_visible_child_name("muted")
 
     def style_class_handler(self):
-        for children in self.label_stack:
-            (
-                children.add_style_class
-                if self.audio.microphone.muted
-                else children.remove_style_class
-            )("passive-revealer-label")
+        for child in self.label_stack:
+            toggle_style_class(child, self.audio.microphone.muted, "passive")
 
 
 class AudioOutputSwitch(Button):
@@ -213,7 +205,11 @@ class AudioOutputSwitch(Button):
         )
         for icon in ["video-display", "audio-headphones", "dialog-error"]:
             self.stack.add_named(
-                Image(icon_name=f"{icon}-symbolic", icon_size=Config.icon_size),
+                Image(
+                    icon_name=f"{icon}-symbolic",
+                    icon_size=Config.icon_size,
+                    name="icon",
+                ),
                 name=icon,
             )
 
