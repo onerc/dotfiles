@@ -25,7 +25,7 @@ class barbar(WaylandWindow):
             end_children=[
                 NowPlaying(),
                 AudioOutputSwitch(),
-                #MicVolume(),
+                MicVolume(),
                 SpeakerVolume(),
                 Power(),
             ],

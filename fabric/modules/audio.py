@@ -23,13 +23,15 @@ class SpeakerVolume(Button):
             transition_type="slide-up-down",
             transition_duration=Config.transition_duration,
         )
-        for volume_step in range(100, -10, -10):
+        for volume_step in range(100, -10, -Config.speaker_volume_increment):
             self.label_stack.add_named(
                 Label(label=f"%{volume_step}", style_classes="revealer-label"),
                 name=f"{volume_step}",
             )
 
-        self.label_stack.add_named(Label(label="N/A", style_classes="revealer-label"), name="N/A")
+        self.label_stack.add_named(
+            Label(label="N/A", style_classes="revealer-label"), name="N/A"
+        )
 
         self.revealer = Revealer(
             child=self.label_stack,
@@ -56,9 +58,9 @@ class SpeakerVolume(Button):
         if self.audio.speaker.name != Config.unwanted_sink:
             match not event.direction:
                 case 0:
-                    self.audio.speaker.volume -= 10
+                    self.audio.speaker.volume -= Config.speaker_volume_increment
                 case 1:
-                    self.audio.speaker.volume += 10
+                    self.audio.speaker.volume += Config.speaker_volume_increment
 
     def mute_handler(self, *args):
         self.audio.speaker.muted = not self.audio.speaker.muted
@@ -122,12 +124,14 @@ class MicVolume(Button):
             transition_type="slide-up-down",
             transition_duration=Config.transition_duration,
         )
-        for volume_step in range(100, -10, -10):
+        for volume_step in range(100, -10, -Config.microphone_volume_increment):
             self.label_stack.add_named(
                 Label(label=f"%{volume_step}", style_classes="revealer-label"),
                 name=f"{volume_step}",
             )
-        self.label_stack.add_named(Label(label="N/A", style_classes="revealer-label"), name="N/A")
+        self.label_stack.add_named(
+            Label(label="N/A", style_classes="revealer-label"), name="N/A"
+        )
 
         self.revealer = Revealer(
             child=self.label_stack,
@@ -154,9 +158,9 @@ class MicVolume(Button):
         if self.audio.microphone:
             match event.direction:
                 case 1:
-                    self.audio.microphone.volume -= 10
+                    self.audio.microphone.volume -= Config.microphone_volume_increment
                 case 0:
-                    self.audio.microphone.volume += 10
+                    self.audio.microphone.volume += Config.microphone_volume_increment
         else:
             self.mic_not_found()
 

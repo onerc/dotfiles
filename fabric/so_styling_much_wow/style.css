@@ -20,9 +20,13 @@
     min-width: 8rem;
 }
 
+#week-days {
+    font-weight: bold;
+}
+
 #week-days,
 .date {
-    min-width: 2rem
+    min-width: 2rem;
 }
 
 .power-label {
@@ -58,7 +62,7 @@
 .workspace-button.empty,
 .passive-revealer-label,
 .invalid-date,
-.passive-power-label,
+.passive-power-icon,
 .passive-now-playing-label {
     color: @passive_color;
 }
@@ -70,7 +74,7 @@
 
 /* makes second entry visible */
     {
-    background: none
+    background: none;
 }
 
 #stack-switcher:checked {

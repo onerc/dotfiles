@@ -28,6 +28,8 @@ class Config:
     suppress_logger: bool = True
 
     # audio
+    speaker_volume_increment: int = 10
+    microphone_volume_increment: int = 10
     speaker_name: str = "alsa_output.pci-0000_03_00.1.hdmi-stereo"
     headphones_name: str = "alsa_output.pci-0000_00_1f.3.analog-stereo"
     unwanted_sink: str = "alsa_output.pci-0000_00_1f.3.iec958-stereo"

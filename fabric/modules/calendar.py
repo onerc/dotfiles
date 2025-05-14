@@ -94,7 +94,7 @@ class theCalendar(Box):
 
             # Get last date, increase the day until its smaller than it should be
             y, m, d = month[-1]
-            if d > monthrange(y, m)[-1]:
+            if d >= monthrange(y, m)[-1]:
                 d = 0
                 m += 1
             month.append((y, m, d + 1))
