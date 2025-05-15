@@ -28,6 +28,7 @@ from gi.repository import Gtk, GLib
 from calendar import Calendar, day_abbr, month_name, monthrange
 from datetime import datetime
 
+from random import choice
 from loguru import logger
 from pathlib import PurePath
 from thefuzz import process

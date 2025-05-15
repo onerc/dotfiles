@@ -4,14 +4,15 @@ from fabricators import now_playing_fabricator
 
 class NowPlaying(Button):
     def __init__(self):
+        self.notes = ["♪", "♫", "♬"]
         self.now_playing_label = Label(
-            label="Nothing is playing", style_classes=["now-playing-label", "passive"]
+            label=choice(self.notes), style_classes=["now-playing-label", "passive"]
         )
 
         super().__init__(
             style_classes="cool-button",
             on_scroll_event=self.on_scroll,
-            on_button_release_event=self.on_button_press,
+            on_button_release_event=self.on_button_press,  # needed to differentiate different button presses
             child=self.now_playing_label,
         )
         now_playing_fabricator.connect(
@@ -22,13 +23,11 @@ class NowPlaying(Button):
     def update_label(self, fabricator, value):
         status, *other_info = value.split(r"\n")
         self.now_playing_label.set_label(self.label_handler(other_info))
-        toggle_style_class(self.now_playing_label, status != "Playing", "passive")
+        toggle_style_class(self, status != "Playing", "passive")
 
-    @staticmethod
-    def label_handler(value):
+    def label_handler(self, value):
         try:
             album, artist, position, title, volume, player_name = value
-            # print(album, artist, status, position, title, volume, player_name)
             return (
                 f"{artist} - {title}"
                 if album  # if it's Jellyfin
@@ -39,7 +38,7 @@ class NowPlaying(Button):
                 else title
             )
         except ValueError:
-            return "Nothing is playing"
+            return choice(self.notes)
 
     @staticmethod
     def on_scroll(widget, event):

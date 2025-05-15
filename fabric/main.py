@@ -37,7 +37,7 @@ class barbar(WaylandWindow):
 
 
 if __name__ == "__main__":
-    bar = Application(barbar(), open_inspector=True)
+    bar = Application(barbar(), open_inspector=False)
     bar.set_stylesheet_from_file(
         file_path=get_relative_path("so_styling_much_wow/style.css")
     )

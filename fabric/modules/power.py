@@ -47,5 +47,4 @@ class Power(Button):
     def lock_handler(self, widget, event, is_pressed):
         if event.button == 3:
             self.is_locked = not is_pressed
-            for child in self.icon_stack.get_children():
-                toggle_style_class(child, self.is_locked, "passive")
+            toggle_style_class(self.icon_stack, self.is_locked, "passive")

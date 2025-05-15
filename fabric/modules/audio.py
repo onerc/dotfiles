@@ -76,7 +76,7 @@ class SpeakerVolume(Button):
 
         self.label_stack.set_visible_child_name(label)
         self.icon_stack.set_visible_child_name(icon)
-        self.style_class_handler()
+        toggle_style_class(self.label_stack, self.audio.speaker.muted, "passive")
 
     def icon_name_handler(self):
         if self.audio.speaker.muted:
@@ -92,10 +92,6 @@ class SpeakerVolume(Button):
             if volume >= 1
             else "muted"
         )
-
-    def style_class_handler(self):
-        for child in self.label_stack:
-            toggle_style_class(child, self.audio.speaker.muted, "passive")
 
 
 class MicVolume(Button):
@@ -171,7 +167,7 @@ class MicVolume(Button):
             f"{round(self.audio.microphone.volume)}"
         )
         self.icon_stack.set_visible_child_name(self.icon_name_handler())
-        self.style_class_handler()
+        toggle_style_class(self.label_stack, self.audio.microphone.muted, "passive")
 
     def icon_name_handler(self):
         if self.audio.microphone.muted:
@@ -189,10 +185,6 @@ class MicVolume(Button):
     def mic_not_found(self):
         self.label_stack.set_visible_child_name("N/A")
         self.icon_stack.set_visible_child_name("muted")
-
-    def style_class_handler(self):
-        for child in self.label_stack:
-            toggle_style_class(child, self.audio.microphone.muted, "passive")
 
 
 class AudioOutputSwitch(Button):
