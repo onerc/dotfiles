@@ -1,7 +1,7 @@
 from imports import *
 
 
-class theCalendar(Box):
+class CalendarPopUp(WaylandWindow):
     def __init__(self):
         self.current_time = datetime.now()
         self.shown_month = self.current_time.month
@@ -20,32 +20,38 @@ class theCalendar(Box):
         )
 
         super().__init__(
-            orientation="v",
-            children=[
-                Box(
-                    children=[
-                        Button(
-                            h_expand=True,
-                            label="←",
-                            style_classes="cool-button",
-                            on_clicked=lambda *args: self.cycle_handler("previous"),
-                        ),
-                        self.calendar_label,
-                        Button(
-                            h_expand=True,
-                            label="→",
-                            style_classes="cool-button",
-                            on_clicked=lambda *args: self.cycle_handler("next"),
-                        ),
-                    ]
-                ),
-                Box(
-                    children=[
-                        Label(label=f"{day[:-1]}", name="week-days") for day in day_abbr
-                    ]
-                ),
-                self.month_stack,
-            ],
+            title="big-popup",
+            anchor="top center",
+            visible=False,
+            child=Box(
+                orientation="v",
+                children=[
+                    Box(
+                        children=[
+                            Button(
+                                h_expand=True,
+                                label="←",
+                                style_classes="cool-button",
+                                on_clicked=lambda *args: self.cycle_handler("previous"),
+                            ),
+                            self.calendar_label,
+                            Button(
+                                h_expand=True,
+                                label="→",
+                                style_classes="cool-button",
+                                on_clicked=lambda *args: self.cycle_handler("next"),
+                            ),
+                        ]
+                    ),
+                    Box(
+                        children=[
+                            Label(label=f"{day[:-1]}", name="week-days")
+                            for day in day_abbr
+                        ]
+                    ),
+                    self.month_stack,
+                ],
+            ),
         )
 
     def update_calendar(self, year_to_show, month_to_show, direction):
@@ -132,16 +138,6 @@ class theCalendar(Box):
             else ["date", "passive"]
             if shown_date[1] != self.shown_month
             else ["date"]
-        )
-
-
-class CalendarPopUp(WaylandWindow):
-    def __init__(self):
-        super().__init__(
-            title="big-popup",
-            anchor="top right",
-            visible=False,
-            child=theCalendar(),
         )
 
 

@@ -1,8 +1,9 @@
 from modules.audio import SpeakerVolume, MicVolume, AudioOutputSwitch
 from modules.now_playing import NowPlaying
 from modules.power import Power
-from modules.hardware_info import HardwareInfo
+from modules.hardware_info import NetworkInfo, StorageInfo
 
+from modules.remove_device import RemoveDevice
 from overrides import OverriddenDateTime, OverriddenWorkspaces
 from imports import *
 
@@ -22,16 +23,21 @@ class barbar(WaylandWindow):
 
         self.centerbox = CenterBox(
             start_children=OverriddenWorkspaces(),
-            center_children=NowPlaying(),
+            center_children=Box(
+                children=[
+                    NetworkInfo(),
+                    OverriddenDateTime(),
+                    AudioOutputSwitch(),
+                ]
+            ),
             end_children=[
-                AudioOutputSwitch(),
+                NowPlaying(),
                 MicVolume(),
                 SpeakerVolume(),
-                HardwareInfo().network_icon_button,
                 Power(),
-                OverriddenDateTime(),
             ],
         )
+        RemoveDevice()
         self.add(self.centerbox)
         self.show_all()
 

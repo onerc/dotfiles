@@ -20,7 +20,8 @@
     min-width: 8rem;
 }
 
-#week-days {
+#week-days,
+#disk-titles {
     font-weight: bold;
 }
 

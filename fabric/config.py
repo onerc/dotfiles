@@ -2,14 +2,39 @@ from imports import *
 
 
 class Config:
+    pretty_names: dict = {
+        "name": "Name",
+        "size": "Capacity",
+        "fsused": "Used",
+        "fstype": "FS",
+        "fsver": "FS Version",
+        "label": "Label",
+        "mountpoint": "Mount Point",
+        "tran": "Interface",
+        "pttype": "Partition Table",
+        "model": "Model",
+        "parttypename": "Partition Type",
+    }
+    shown_info: dict = {
+        "name": True,
+        "size": True,
+        "fsused": True,
+        "fstype": True,
+        "fsver": False,
+        "label": True,
+        "mountpoint": True,
+        "tran": False,
+        "pttype": False,
+        "model": False,
+        "parttypename": False,
+    }
+
     # window manager
     number_of_workspaces: int = 10
 
     # hardware
     favorite_monitor_index: int = 0
     network_interface: str = "enp6s0"
-    psutil_cpu: str = "coretemp"
-    psutil_gpu: str = "amdgpu"
 
     # icons
     cpu_icon: str = "cpu-symbolic"
