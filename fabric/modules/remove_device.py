@@ -1,75 +1,89 @@
-from config import Config
 from fabricators import device_fabricator
 from imports import *
 
 
 class RemoveDevice(WaylandWindow):
     def __init__(self):
-        self.grid = Gtk.Grid(visible=True)
-        self.box = Box(children=self.grid)
+        self.box = Box(orientation="v")
         super().__init__(
-            visible=True, anchor="top right", title="remove-device", child=self.box
+            anchor="top right",
+            child=self.box,
+            monitor=Config.favorite_monitor_index,
+            title="remove-device",
+            visible=True,
         )
-        device_fabricator.connect("changed", self.join_json)
-        self.ugly_json = ""
-        self.handsome_json = []
+        device_fabricator.connect("changed", self.check_if_different)
+        self.old_json = []
+        self.formatted_json = []
 
-    def join_json(self, fabricator, value):
-        self.ugly_json += value
-        try:
-            self.format_json(loads(self.ugly_json))
-        except JSONDecodeError:
-            pass
+    def check_if_different(self, fabricator, value):
+        if self.old_json != value:
+            self.old_json = value
+            self.its_rewind_time()
+            self.format_json(value)
+
+    def its_rewind_time(self):
+        self.formatted_json.clear()
+        for child in self.box.get_children():
+            child.destroy()
 
     def format_json(self, json_to_format):
         def extract_children(parent_to_iterate):
             for disk in parent_to_iterate:
-                for key, value in disk.items():
-                    # iterate through childen, which contain partition info
-                    if isinstance(value, list):
-                        extract_children(value)
+                # convert vfat to fat*
+                if disk["fstype"] == "vfat":
+                    disk.update(fstype=disk["fsver"].lower())
 
                 # yeet the disks/partitions with no filesystem
                 if disk["fstype"] is not None:
-                    self.handsome_json.append(disk)
+                    self.formatted_json.append(disk)
 
-        extract_children(json_to_format["blockdevices"])
+                # iterate through childen, which contain partition info
+                for value in disk.values():
+                    if isinstance(value, list):
+                        extract_children(value)
 
+        extract_children(loads(json_to_format)["blockdevices"])
         self.create_grid()
 
     def create_grid(self):
-        for title in Config.shown_info:
-            if Config.shown_info[title]:
-                self.grid.attach(
-                    Label(label=Config.pretty_names[title], name="disk-titles"),
-                    [key for key, value in Config.shown_info.items() if value].index(
-                        title
-                    ),
-                    0,
-                    1,
-                    1,
-                )
-
-        for disk in self.handsome_json:
-            column = 0
-            for key, value in disk.items():
+        for disk in self.formatted_json:
+            for key in disk.keys():
                 if Config.shown_info[key]:
-                    self.grid.attach(
-                        Label(
-                            label=value,
+                    self.box.add(
+                        Button(
+                            style_classes="cool-button",
                             tooltip_text="\n".join(self.hidden_props(disk)),
-                        ),
-                        column,
-                        self.handsome_json.index(disk) + 1,
-                        1,
-                        1,
+                            child=Box(children=self.visible_props(disk)),
+                            on_clicked=lambda *args,
+                            value=disk: exec_shell_command_async(
+                                f"udisksctl {'unmount' if value['mountpoint'] else 'mount'} -b /dev/{value['name']}"
+                            ),
+                        )
                     )
-
-                    column += 1
+                    break
 
     def hidden_props(self, disk):
+        # iterate through the ones hidden in the config, ignore fsver, strip None and capitalize abbreviations
         return [
-            f"{Config.pretty_names[key]}: {value}"
+            f"{Config.pretty_names[key]}: {self.abbreviation_capitalizer(value) if key in ['tran', 'pttype'] else value}"
             for key, value in disk.items()
-            if not Config.shown_info[key] and value is not None
+            if not Config.shown_info[key] and key != "fsver" and value is not None
         ]
+
+    def visible_props(self, disk):
+        return [
+            Label(
+                label=disk[k] if disk[k] else "•",
+                style_classes="device-label"
+                if disk["mountpoint"]
+                else ["device-label", "passive"],
+            )
+            for k, v in Config.shown_info.items()
+            if v
+        ]
+
+    @staticmethod
+    def abbreviation_capitalizer(abbreviation):
+        # fk you nvme
+        return "NVMe" if abbreviation == "nvme" else abbreviation.upper()

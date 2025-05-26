@@ -32,7 +32,7 @@ from loguru import logger
 from pathlib import PurePath
 from thefuzz import process
 from time import sleep
-from json import loads, JSONDecodeError
+from json import loads
 import psutil
 
 from config import *

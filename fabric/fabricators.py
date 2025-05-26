@@ -14,7 +14,7 @@ psutil_fabricator = Fabricator(poll_from=psutil_poll, stream=True)
 cache_fabricator = Fabricator(poll_from="grep Dirty: /proc/meminfo")
 
 device_fabricator = Fabricator(
-    poll_from="lsblk -Jo NAME,SIZE,FSUSED,FSTYPE,FSVER,LABEL,MOUNTPOINT,TRAN,PTTYPE,MODEL,PARTTYPENAME",
+    poll_from="bash -c \"lsblk -Jo NAME,SIZE,FSUSED,FSTYPE,FSVER,LABEL,MOUNTPOINT,TRAN,PTTYPE,MODEL,PARTTYPENAME | tr -d '\n'\"",
 )
 now_playing_fabricator = Fabricator(
     poll_from=r"playerctl -F metadata --format '{{status}}\n{{album}}\n{{artist}}\n{{position}}\n{{title}}\n{{volume}}\n{{playerName}}'",

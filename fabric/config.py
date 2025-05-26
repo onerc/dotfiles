@@ -22,7 +22,7 @@ class Config:
         "fstype": True,
         "fsver": False,
         "label": True,
-        "mountpoint": True,
+        "mountpoint": False,
         "tran": False,
         "pttype": False,
         "model": False,

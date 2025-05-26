@@ -8,11 +8,13 @@ class NowPlaying(Button):
         self.now_playing_label = Label(
             label=choice(self.notes), style_classes=["now-playing-label", "passive"]
         )
+        # these returns as labels for some reason
+        self.bad_labels = ["Music", "Jellyfin"]
 
         super().__init__(
             style_classes="cool-button",
             on_scroll_event=self.on_scroll,
-            on_button_release_event=self.on_button_press,  # needed to differentiate different button presses
+            on_button_release_event=self.on_button_press,  # needed to differentiate button presses
             child=self.now_playing_label,
         )
         now_playing_fabricator.connect(
@@ -28,6 +30,8 @@ class NowPlaying(Button):
     def label_handler(self, value):
         try:
             album, artist, position, title, volume, player_name = value
+            if title in self.bad_labels:
+                raise ValueError
             return (
                 f"{artist} - {title}"
                 if album  # if it's Jellyfin

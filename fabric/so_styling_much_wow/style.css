@@ -53,15 +53,8 @@
     color: @nice_green;
 }
 
-#circular-progress {
-    border-color: @nice_green
-}
-
-#circular-progress>image {
-    color: initial
-}
-
 #circular-progress,
+.device-label.passive,
 .workspace-button.empty,
 .power-icon.passive,
 .revealer-label.passive,
@@ -78,4 +71,8 @@
 /* makes second entry visible */
     {
     background: none;
+}
+
+.device-label {
+    min-width: 100px
 }
