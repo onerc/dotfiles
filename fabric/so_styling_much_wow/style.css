@@ -21,16 +21,18 @@
 }
 
 #week-days,
-#disk-titles {
-    font-weight: bold;
-}
-
-#week-days,
 .date {
     min-width: 2rem;
 }
 
+#disk-titles {
+    min-width: 102px
+}
 
+#week-days,
+#disk-titles {
+    font-weight: bold;
+}
 
 .cool-button {
     box-shadow: none;

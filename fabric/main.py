@@ -1,9 +1,9 @@
 from modules.audio import SpeakerVolume, MicVolume, AudioOutputSwitch
 from modules.now_playing import NowPlaying
 from modules.power import Power
-from modules.hardware_info import NetworkInfo, StorageInfo
+from modules.hardware_info import NetworkInfo
 
-from modules.remove_device import RemoveDevice
+from modules.remove_device import ToggleRemoveDeviceVisibility
 from overrides import OverriddenDateTime, OverriddenWorkspaces
 from imports import *
 
@@ -32,12 +32,13 @@ class barbar(WaylandWindow):
             ),
             end_children=[
                 NowPlaying(),
+                ToggleRemoveDeviceVisibility(),
                 MicVolume(),
                 SpeakerVolume(),
                 Power(),
             ],
         )
-        RemoveDevice()
+
         self.add(self.centerbox)
         self.show_all()
 

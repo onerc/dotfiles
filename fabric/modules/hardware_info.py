@@ -1,6 +1,6 @@
 from imports import *
 
-from fabricators import psutil_fabricator, cache_fabricator
+from fabricators import psutil_fabricator
 
 
 class NetworkInfo(Button):
@@ -34,31 +34,3 @@ class NetworkInfo(Button):
         else:
             self.network_icon_stack.set_tooltip_text("N/A")
             self.network_icon_stack.set_visible_child_name("network-wired-disconnected")
-
-
-class StorageInfo(Box):
-    def __init__(self):
-        self.cache_icon = Image(
-            icon_name=Config.cache_icon,
-            icon_size=Config.icon_size,
-            name="icon",
-        )
-
-        self.cache_label = Label(h_expand=True, name="cache-label")
-
-        super().__init__(children=[self.cache_icon, self.cache_label])
-
-        cache_fabricator.connect("changed", self.cache_label_handler)
-
-    def cache_label_handler(self, fabricator, value):
-        self.cache_label.set_label(self.convert_kb_to_gb(int(value.split()[1])))
-
-    @staticmethod
-    def convert_kb_to_gb(number):
-        return (
-            f"{round(number / 1048576, 1)} GB"
-            if number >= 1048576
-            else f"{round(number / 1024, 1)} MB"
-            if number >= 1024
-            else f"{number} KB"
-        )

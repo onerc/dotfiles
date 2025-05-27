@@ -6,7 +6,7 @@ class Config:
         "name": "Name",
         "size": "Capacity",
         "fsused": "Used",
-        "fstype": "FS",
+        "fstype": "Filesystem",
         "fsver": "FS Version",
         "label": "Label",
         "mountpoint": "Mount Point",
@@ -39,7 +39,7 @@ class Config:
     # icons
     cpu_icon: str = "cpu-symbolic"
     gpu_icon: str = "freon-gpu-temperature-symbolic"
-    disk_icon: str = "drive-harddisk-system-symbolic"
+    # disk_icon: str = "drive-harddisk-system-symbolic"
     ram_icon: str = "ram-symbolic"
     cache_icon: str = "drive-removable-media-symbolic"
     headphone_icon: str = "audio-headphones"
