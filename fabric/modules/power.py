@@ -41,7 +41,7 @@ class Power(Button):
             exec_shell_command_async(f"{self.current_action} now")
 
     def on_scroll(self, widget, event):
-        self.current_action = "shutdown" if not event.direction else "reboot"
+        self.current_action = "reboot" if event.direction else "shutdown"
         self.icon_stack.set_visible_child_name(self.current_action)
 
     def lock_handler(self, widget, event, is_pressed):

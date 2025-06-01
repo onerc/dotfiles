@@ -81,7 +81,7 @@ class RemoveDevicePopUp(WaylandWindow):
                     break
 
     def hidden_props(self, disk):
-        # iterate through the ones hidden in the config, ignore fsver, strip None and capitalize abbreviations
+        # iterate through the ones hidden in the config, ignore fsver key and None value, capitalize abbreviations
         return [
             f"{Config.pretty_names[key]}: {self.abbreviation_capitalizer(value) if key in ['tran', 'pttype'] else value}"
             for key, value in disk.items()

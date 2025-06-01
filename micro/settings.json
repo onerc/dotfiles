@@ -1,4 +1,4 @@
 {
     "mkparents": true,
-    "clipboard":"internal"
+    "clipboard":"terminal"
 }
