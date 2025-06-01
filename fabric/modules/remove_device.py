@@ -2,7 +2,7 @@ from fabricators import device_fabricator, cache_fabricator
 from imports import *
 
 
-class RemoveDevice(WaylandWindow):
+class RemoveDevicePopUp(WaylandWindow):
     def __init__(self):
         self.cache_label = Label(h_expand=True, name="cache-label")
         self.title_box = Box(
@@ -24,7 +24,7 @@ class RemoveDevice(WaylandWindow):
             child=self.big_box,
             monitor=Config.favorite_monitor_index,
             title="remove-device",
-            visible=True,
+            visible=False,
         )
         device_fabricator.connect("changed", self.check_if_different)
         cache_fabricator.connect("changed", self.cache_label_handler)
@@ -116,15 +116,17 @@ class RemoveDevice(WaylandWindow):
         )
 
 
+remove_device = RemoveDevicePopUp()
+
+
 class ToggleRemoveDeviceVisibility(Button):
     def __init__(self):
-        self.remove_device = RemoveDevice()
         super().__init__(
             child=Image(
                 icon_name=Config.cache_icon, icon_size=Config.icon_size, name="icon"
             ),
             style_classes="cool-button",
-            on_clicked=lambda *args: self.remove_device.hide()
-            if self.remove_device.get_visible()
-            else self.remove_device.show(),
+            on_clicked=lambda *args: remove_device.hide()
+            if remove_device.get_visible()
+            else remove_device.show(),
         )

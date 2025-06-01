@@ -9,7 +9,8 @@ from imports import *
 
 # imported so they are accessible with cli
 from modules.app_launcher import app_launcher
-from modules.calendar import calendar_pop_up
+from modules.calendar import calendar
+from modules.remove_device import remove_device
 
 
 class barbar(WaylandWindow):

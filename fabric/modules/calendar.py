@@ -20,7 +20,7 @@ class CalendarPopUp(WaylandWindow):
         )
 
         super().__init__(
-            title="big-popup",
+            title="calendar",
             anchor="top center",
             visible=False,
             child=Box(
@@ -141,4 +141,4 @@ class CalendarPopUp(WaylandWindow):
         )
 
 
-calendar_pop_up = CalendarPopUp()
+calendar = CalendarPopUp()

@@ -1,7 +1,7 @@
 from imports import *
 
 
-class AppLauncher(WaylandWindow):
+class AppLauncherPopUp(WaylandWindow):
     def __init__(self):
         self.app_list = [
             PurePath(f"{app.executable}").name  # stripping paths
@@ -46,4 +46,4 @@ class AppLauncher(WaylandWindow):
         self.hide()
 
 
-app_launcher = AppLauncher()
+app_launcher = AppLauncherPopUp()
