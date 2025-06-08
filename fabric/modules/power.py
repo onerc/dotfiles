@@ -3,7 +3,7 @@ from imports import *
 
 class Power(Button):
     def __init__(self):
-        self.current_action = "shutdown"
+        self.current_action = "shutdown now"
         self.is_locked = True
 
         self.icon_stack = Stack(
@@ -38,11 +38,11 @@ class Power(Button):
 
     def on_clicked(self):
         if not self.is_locked:
-            exec_shell_command_async(f"{self.current_action} now")
+            exec_shell_command_async(self.current_action)
 
     def on_scroll(self, widget, event):
-        self.current_action = "reboot" if event.direction else "shutdown"
-        self.icon_stack.set_visible_child_name(self.current_action)
+        self.current_action = "reboot" if event.direction else "shutdown now"
+        self.icon_stack.set_visible_child_name(self.current_action.split()[0]) # strip "now"
 
     def lock_handler(self, widget, event, is_pressed):
         if event.button == 3:
