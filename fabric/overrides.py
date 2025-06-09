@@ -8,7 +8,7 @@ class OverriddenDateTime(DateTime):
 
     def do_handle_press(self, _, event, *args):
         if event.button == 1:
-            calendar.hide() if calendar.get_visible() else calendar.show()
+            toggle_visibility(calendar)
 
 
 # removing this and just styling the button causes them to get styled late when the bar is started

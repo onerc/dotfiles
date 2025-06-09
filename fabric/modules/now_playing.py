@@ -4,12 +4,12 @@ from fabricators import now_playing_fabricator
 
 class NowPlaying(Button):
     def __init__(self):
-        self.notes = ["♪", "♫", "♬"]
+        self.notes = ("♪", "♫", "♬")
         self.now_playing_label = Label(
             label=choice(self.notes), style_classes=["now-playing-label", "passive"]
         )
         # these returns as labels for some reason
-        self.bad_labels = ["Music", "Jellyfin"]
+        self.bad_labels = ("Music", "Jellyfin")
 
         super().__init__(
             style_classes="cool-button",

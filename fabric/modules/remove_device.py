@@ -126,7 +126,5 @@ class ToggleRemoveDeviceVisibility(Button):
                 icon_name=Config.cache_icon, icon_size=Config.icon_size, name="icon"
             ),
             style_classes="cool-button",
-            on_clicked=lambda *args: remove_device.hide()
-            if remove_device.get_visible()
-            else remove_device.show(),
+            on_clicked=lambda *args: toggle_visibility(remove_device)
         )
