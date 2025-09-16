@@ -1,121 +1,61 @@
-server {
-	listen 80;
-	server_name torrent.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:8080";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name prowlarr.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:9696";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name pi-hole.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:81/admin";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
- 	}
-	location /admin { 
-		proxy_pass "http://192.168.1.101:81/admin";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
- 	}
-	location /api { 
-		proxy_pass "http://192.168.1.101:81/api";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name syncthing.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:8384";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name jellyfin.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:8096";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name detector.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:5000";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name influxdb.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:8086";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-    	
-	} 
-}
-server {
-	listen 80;
-	server_name grafana.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:3000";
-	    proxy_set_header   Host               $http_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
-
-server {
-	listen 80;
-	server_name prometheus.home.arpa;
-	location / { 
-		proxy_pass "http://192.168.1.101:9090";
-	    proxy_set_header   Host               $proxy_host;
-    	proxy_set_header   X-Forwarded-For    $proxy_add_x_forwarded_for;
-    	proxy_set_header   X-Forwarded-Host   $http_host;
-    	proxy_set_header   X-Forwarded-Proto  $scheme;
-	} 
-}
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name qbittorrent.home.arpa;                                                                                                                                     
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:8080";                                                                                                                            
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}                                                                                                                                                                          
+                                                                                                                                                                           
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name prowlarr.home.arpa;                                                                                                                                        
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:9696";                                                                                                                            
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}                                                                                                                                                                          
+       
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name pi-hole.home.arpa;                                                                                                                                         
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:81/admin";                                                                                                                        
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+    location /admin {                                                                                                                                                      
+        proxy_pass "http://192.168.1.101:81/admin";                                                                                                                        
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+    location /api {                                                                                                                                                        
+        proxy_pass "http://192.168.1.101:81/api";                                                                                                                          
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}                                                                                                                                                                          
+                                                                                                                                                                           
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name syncthing.home.arpa;                                                                                                                                       
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:8384";                                                                                                                            
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}                                                                                                                                                                          
+                                                                                                                                                                           
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name jellyfin.home.arpa;                                                                                                                                        
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:8096";                                                                                                                            
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}                                                                                                                                                                          
+                                                                                                                                                                           
+server {                                                                                                                                                                   
+    listen 80;                                                                                                                                                             
+    server_name detector.home.arpa;                                                                                                                                        
+    location / {                                                                                                                                                           
+        proxy_pass "http://192.168.1.101:5000";                                                                                                                            
+        include common;                                                                                                                                                    
+    }                                                                                                                                                                      
+}    
