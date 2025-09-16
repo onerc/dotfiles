@@ -3,7 +3,7 @@ server {
     server_name qbittorrent.home.arpa;                                                                                                                                     
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:8080";                                                                                                                            
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }                                                                                                                                                                          
                                                                                                                                                                            
@@ -12,7 +12,7 @@ server {
     server_name prowlarr.home.arpa;                                                                                                                                        
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:9696";                                                                                                                            
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }                                                                                                                                                                          
        
@@ -21,15 +21,15 @@ server {
     server_name pi-hole.home.arpa;                                                                                                                                         
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:81/admin";                                                                                                                        
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
     location /admin {                                                                                                                                                      
         proxy_pass "http://192.168.1.101:81/admin";                                                                                                                        
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
     location /api {                                                                                                                                                        
         proxy_pass "http://192.168.1.101:81/api";                                                                                                                          
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }                                                                                                                                                                          
                                                                                                                                                                            
@@ -38,7 +38,7 @@ server {
     server_name syncthing.home.arpa;                                                                                                                                       
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:8384";                                                                                                                            
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }                                                                                                                                                                          
                                                                                                                                                                            
@@ -47,7 +47,7 @@ server {
     server_name jellyfin.home.arpa;                                                                                                                                        
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:8096";                                                                                                                            
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }                                                                                                                                                                          
                                                                                                                                                                            
@@ -56,6 +56,6 @@ server {
     server_name detector.home.arpa;                                                                                                                                        
     location / {                                                                                                                                                           
         proxy_pass "http://192.168.1.101:5000";                                                                                                                            
-        include common;                                                                                                                                                    
+        include sites-enabled/common;                                                                                                                                                    
     }                                                                                                                                                                      
 }    
