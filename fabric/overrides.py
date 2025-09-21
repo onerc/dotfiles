@@ -17,7 +17,7 @@ class OverriddenWorkspaceButton(WorkspaceButton):
         self.children = Label(self._label.format(button=self))
 
 
-class OverriddenWorkspaces(Workspaces):
+class OverriddenWorkspaces(HyprlandWorkspaces):
     def __init__(self):
         super().__init__(
             buttons=[

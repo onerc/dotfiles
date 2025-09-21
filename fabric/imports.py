@@ -2,7 +2,7 @@ from fabric import Application
 from fabric.audio.service import Audio
 from fabric.core import Fabricator
 from fabric.hyprland.service import Hyprland
-from fabric.hyprland.widgets import Workspaces, WorkspaceButton
+from fabric.hyprland.widgets import HyprlandWorkspaces, WorkspaceButton
 from fabric.utils import (
     exec_shell_command_async,
     get_relative_path,
