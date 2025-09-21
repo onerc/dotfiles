@@ -23,7 +23,7 @@ class barbar(WaylandWindow):
         )
 
         self.centerbox = CenterBox(
-            OverriddenWorkspaces(),
+            start_children=OverriddenWorkspaces(),
             center_children=Box(
                 children=[
                     NetworkInfo(),
