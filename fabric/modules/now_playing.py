@@ -8,7 +8,7 @@ class NowPlaying(Button):
         self.now_playing_label = Label(
             label=choice(self.notes), style_classes=["now-playing-label", "passive"]
         )
-        # these returns as labels for some reason
+        # jellyfin returns these as labels for some reason
         self.bad_labels = ("Music", "Jellyfin", "Search")
 
         super().__init__(
@@ -24,8 +24,8 @@ class NowPlaying(Button):
 
     def update_label(self, fabricator, value):
         status, *other_info = value.split(r"\n")
-        self.now_playing_label.set_label(self.label_handler(other_info))
         toggle_style_class(self, status != "Playing", "passive")
+        self.now_playing_label.set_label(self.label_handler(other_info))
 
     def label_handler(self, value):
         try:
