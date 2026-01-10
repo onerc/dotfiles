@@ -9,7 +9,7 @@ class NowPlaying(Button):
             label=choice(self.notes), style_classes=["now-playing-label", "passive"]
         )
         # jellyfin returns these as labels for some reason
-        self.bad_labels = ("Music", "Jellyfin", "Search")
+        self.bad_labels = ("Music", "Jellyfin", "Search", gethostname())
 
         super().__init__(
             style_classes="cool-button",

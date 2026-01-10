@@ -27,12 +27,14 @@ from gi.repository import Gtk, GLib
 from calendar import Calendar, day_abbr, month_name, monthrange
 from datetime import datetime
 
-from random import choice
+from difflib import SequenceMatcher
+from json import loads
 from loguru import logger
 from pathlib import PurePath
-from thefuzz import process
+from random import choice
+from socket import gethostname
+from thefuzz import fuzz, process
 from time import sleep
-from json import loads
 import psutil
 
 from config import *

@@ -66,6 +66,10 @@ class SpeakerVolume(Button):
         self.audio.speaker.muted = not self.audio.speaker.muted
 
     def label_and_icon_handler(self, *args):
+        # fix audio to prevent "Gtk-WARNING **: 21:04:00.921: Child name '43' not found in GtkStack"
+        if round(self.audio.speaker.volume) % Config.speaker_volume_increment:
+            self.audio.speaker.volume = round(self.audio.speaker.volume, -1)
+
         match self.audio.speaker.name:
             case Config.unwanted_sink:
                 label = "N/A"
@@ -163,6 +167,8 @@ class MicVolume(Button):
             self.mic_not_found()
 
     def label_and_icon_handler(self, *args):
+        if round(self.audio.microphone.volume) % Config.microphone_volume_increment:
+            self.audio.microphone.volume = round(self.audio.microphone.volume, -1)
         self.label_stack.set_visible_child_name(
             f"{round(self.audio.microphone.volume)}"
         )

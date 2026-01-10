@@ -35,14 +35,13 @@ class RemoveDevicePopUp(WaylandWindow):
     def check_if_different(self, fabricator, value):
         if self.cache_json != value:
             self.cache_json = value
-            self.its_rewind_time()
+            self.clear_lines()
             self.format_json(loads(value)["blockdevices"])
             self.create_info_lines()
 
-    def its_rewind_time(self):
+    def clear_lines(self):
         self.formatted_json.clear()
-        for child in self.big_box.get_children()[2:]:
-            child.destroy()
+        destroy_useless_children(self.big_box, 2)
 
     def format_json(self, json_to_format):
         for disk in json_to_format:
@@ -126,5 +125,5 @@ class ToggleRemoveDeviceVisibility(Button):
                 icon_name=Config.cache_icon, icon_size=Config.icon_size, name="icon"
             ),
             style_classes="cool-button",
-            on_clicked=lambda *args: toggle_visibility(remove_device)
+            on_clicked=lambda *args: toggle_visibility(remove_device),
         )

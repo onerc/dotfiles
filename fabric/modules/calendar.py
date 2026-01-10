@@ -133,11 +133,11 @@ class CalendarPopUp(WaylandWindow):
         )
 
         return (
-            ["date", "current"]
+            ("date", "current")
             if shown_date == current_date
-            else ["date", "passive"]
+            else ("date", "passive")
             if shown_date[1] != self.shown_month
-            else ["date"]
+            else ("date")
         )
 
 

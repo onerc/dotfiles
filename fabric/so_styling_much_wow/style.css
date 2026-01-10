@@ -41,18 +41,18 @@
 }
 
 .cool-button:hover {
-    border-color: @dark_main_color;
+    border-color: @passive_color
 }
 
 .cool-button:active,
 #app-launcher-entry:focus {
-    border-color: @main_color;
+    border-color: @main_color
 }
 
 
 .workspace-button.active,
 .date.current {
-    color: @nice_green;
+    color: @nice_green
 }
 
 #circular-progress,
@@ -62,17 +62,16 @@
 .revealer-label.passive,
 .date.passive,
 .now-playing-label.passive {
-    color: @passive_color;
+    color: @passive_color
 }
 
 
-#app-launcher-window,
-/* removes edges */
-#app-launcher-entry
-
-/* makes second entry visible */
-    {
+#app-launcher-window {
     background: none;
+}
+
+#app-launcher-box {
+    min-height: 11.4rem;
 }
 
 .device-label {
