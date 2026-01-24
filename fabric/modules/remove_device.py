@@ -4,12 +4,16 @@ from imports import *
 
 class RemoveDevicePopUp(WaylandWindow):
     def __init__(self):
+        self.visible_props = [
+            prop
+            for prop in list(config.info.__dict__)
+            if getattr(config.info, prop).show
+        ]
         self.cache_label = Label(h_expand=True, name="cache-label")
         self.title_box = Box(
             children=[
-                Label(label=Config.pretty_names[title], name="disk-titles")
-                for title in Config.shown_info
-                if Config.shown_info[title]
+                Label(label=getattr(config.info, prop).pretty_name, name="disk-titles")
+                for prop in self.visible_props
             ]
         )
         self.big_box = Box(
@@ -22,7 +26,7 @@ class RemoveDevicePopUp(WaylandWindow):
         super().__init__(
             anchor="top right",
             child=self.big_box,
-            monitor=Config.favorite_monitor_index,
+            monitor=config.hardware.favorite_monitor_index,
             title="remove-device",
             visible=False,
         )
@@ -37,11 +41,11 @@ class RemoveDevicePopUp(WaylandWindow):
             self.cache_json = value
             self.clear_lines()
             self.format_json(loads(value)["blockdevices"])
-            self.create_info_lines()
+            self.create_disk_info_lines()
 
     def clear_lines(self):
         self.formatted_json.clear()
-        destroy_useless_children(self.big_box, 2)
+        utils.destroy_useless_children(self.big_box, 2)
 
     def format_json(self, json_to_format):
         for disk in json_to_format:
@@ -62,15 +66,17 @@ class RemoveDevicePopUp(WaylandWindow):
                     for child in children:
                         child.update(tran=disk["tran"])
 
-    def create_info_lines(self):
+    def create_disk_info_lines(self):
         for disk in self.formatted_json:
             for key in disk.keys():
-                if Config.shown_info[key]:
+                if getattr(config.info, key).show:
                     self.big_box.add(
                         Button(
                             style_classes="cool-button",
-                            tooltip_text="\n".join(self.hidden_props(disk)),
-                            child=Box(children=self.visible_props(disk)),
+                            tooltip_text="\n".join(
+                                self.set_hidden_props_as_tooltip(disk)
+                            ),
+                            child=Box(children=self.populate_visible_props(disk)),
                             on_clicked=lambda *args,
                             value=disk: exec_shell_command_async(
                                 f"udisksctl {'unmount' if value['mountpoint'] else 'mount'} -b /dev/{value['name']}"
@@ -79,24 +85,25 @@ class RemoveDevicePopUp(WaylandWindow):
                     )
                     break
 
-    def hidden_props(self, disk):
+    def set_hidden_props_as_tooltip(self, disk):
         # iterate through the ones hidden in the config, ignore fsver key and None value, capitalize abbreviations
         return [
-            f"{Config.pretty_names[key]}: {self.abbreviation_capitalizer(value) if key in ['tran', 'pttype'] else value}"
+            f"{getattr(config.info, key).pretty_name}: {self.abbreviation_capitalizer(value) if key in ['tran', 'pttype'] else value}"
             for key, value in disk.items()
-            if not Config.shown_info[key] and key != "fsver" and value is not None
+            if not getattr(config.info, key).show
+            and key != "fsver"
+            and value is not None
         ]
 
-    def visible_props(self, disk):
+    def populate_visible_props(self, disk):
         return [
             Label(
-                label=disk[k] if disk[k] else "•",
+                label=disk[prop] if disk[prop] else "•",
                 style_classes="device-label"
                 if disk["mountpoint"]
                 else ["device-label", "passive"],
             )
-            for k, v in Config.shown_info.items()
-            if v
+            for prop in self.visible_props
         ]
 
     @staticmethod
@@ -122,8 +129,10 @@ class ToggleRemoveDeviceVisibility(Button):
     def __init__(self):
         super().__init__(
             child=Image(
-                icon_name=Config.cache_icon, icon_size=Config.icon_size, name="icon"
+                icon_name=config.icons.cache_icon,
+                icon_size=config.eye_candy.icon_size,
+                name="icon",
             ),
             style_classes="cool-button",
-            on_clicked=lambda *args: toggle_visibility(remove_device),
+            on_clicked=lambda *args: utils.toggle_visibility(remove_device),
         )

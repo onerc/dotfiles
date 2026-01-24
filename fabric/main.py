@@ -18,7 +18,7 @@ class barbar(WaylandWindow):
         super().__init__(
             anchor="left top right",
             exclusivity="auto",
-            monitor=Config.favorite_monitor_index,
+            monitor=config.hardware.favorite_monitor_index,
             visible=False,
         )
 

@@ -8,16 +8,16 @@ class Power(Button):
 
         self.icon_stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
 
-        for action in ["shutdown", "reboot"]:
+        for action in ("shutdown", "reboot"):
             self.icon_stack.add_named(
                 Image(
                     icon_name=f"system-{action}-symbolic",
-                    icon_size=Config.icon_size,
+                    icon_size=config.eye_candy.icon_size,
                     name="icon",
-                    style_classes=["power-icon", "passive"],
+                    style_classes=("power-icon", "passive"),
                 ),
                 name=action,
             )
@@ -42,9 +42,11 @@ class Power(Button):
 
     def on_scroll(self, widget, event):
         self.current_action = "reboot" if event.direction else "shutdown now"
-        self.icon_stack.set_visible_child_name(self.current_action.split()[0]) # strip "now"
+        self.icon_stack.set_visible_child_name(
+            self.current_action.split()[0]
+        )  # strip "now"
 
     def lock_handler(self, widget, event, is_pressed):
         if event.button == 3:
             self.is_locked = not is_pressed
-            toggle_style_class(self.icon_stack, self.is_locked, "passive")
+            utils.toggle_style_class(self.icon_stack, self.is_locked, "passive")

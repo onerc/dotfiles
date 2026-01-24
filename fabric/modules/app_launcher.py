@@ -17,20 +17,19 @@ class AppLauncherPopUp(WaylandWindow):
             on_activate=lambda *args: self.run_the_match(),
             name="app-launcher-entry",
         )
-        self.matchbox.add(self.entry)
 
         super().__init__(
             anchor="top center",
-            child=self.matchbox,
-            keyboard_mode="exclusive",
-            monitor=Config.favorite_monitor_index,
+            child=Box(orientation="v", children=[self.entry, self.matchbox]),
+            keyboard_mode="on-demand",
+            monitor=config.hardware.favorite_monitor_index,
             name="app-launcher-window",
             title="app-launcher",
             visible=False,
         )
 
     @staticmethod
-    def generate_and_style_label(entry, word_to_match):
+    def create_and_style_label(entry, word_to_match):
         markup = ""
         for code, entry_start, entry_stop, wtm_start, wtm_stop in SequenceMatcher(
             None, entry, word_to_match
@@ -58,14 +57,14 @@ class AppLauncherPopUp(WaylandWindow):
         return matches
 
     def populate_matchbox(self, entry_text):
-        destroy_useless_children(self.matchbox, 1)
+        utils.destroy_useless_children(self.matchbox, 0)
         if not entry_text:
             return
 
         for match in self.find_and_tweak_matches(entry_text):
             self.matchbox.add(
                 Button(
-                    child=self.generate_and_style_label(entry_text, match),
+                    child=self.create_and_style_label(entry_text, match),
                     on_clicked=lambda *args, value=match: self.run_the_match(value),
                 )
             )
@@ -73,7 +72,7 @@ class AppLauncherPopUp(WaylandWindow):
     def run_the_match(self, thingy_to_run=None):
         try:
             Hyprland.send_command(
-                f"dispatch exec {thingy_to_run if thingy_to_run else self.matchbox.get_children()[1].get_child().get_text()}"
+                f"dispatch exec {thingy_to_run if thingy_to_run else self.matchbox.get_children()[0].get_child().get_text()}"
             )
         except IndexError:  # entry empty, so matchbox empty
             return
@@ -81,7 +80,7 @@ class AppLauncherPopUp(WaylandWindow):
 
     def clear_entry_and_hide(self):
         self.entry.delete_text(0, -1)
-        destroy_useless_children(self.matchbox, 1)
+        utils.destroy_useless_children(self.matchbox, 0)
         self.hide()
 
 

@@ -12,7 +12,7 @@ class CalendarPopUp(WaylandWindow):
             style_classes="calendar-label",
         )
         self.month_stack = Stack(
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
             transition_type="slide-left-right",
             children=self.create_month_grid(
                 self.current_time.year, self.current_time.month
@@ -28,19 +28,9 @@ class CalendarPopUp(WaylandWindow):
                 children=[
                     Box(
                         children=[
-                            Button(
-                                h_expand=True,
-                                label="←",
-                                style_classes="cool-button",
-                                on_clicked=lambda *args: self.cycle_handler("previous"),
-                            ),
+                            self.create_navigation_buttons("previous"),
                             self.calendar_label,
-                            Button(
-                                h_expand=True,
-                                label="→",
-                                style_classes="cool-button",
-                                on_clicked=lambda *args: self.cycle_handler("next"),
-                            ),
+                            self.create_navigation_buttons("next"),
                         ]
                     ),
                     Box(
@@ -52,6 +42,14 @@ class CalendarPopUp(WaylandWindow):
                     self.month_stack,
                 ],
             ),
+        )
+
+    def create_navigation_buttons(self, direction: str):
+        return Button(
+            h_expand=True,
+            label="←" if direction == "previous" else "→",
+            style_classes="cool-button",
+            on_clicked=lambda *args: self.cycle_handler(direction),
         )
 
     def update_calendar(self, year_to_show, month_to_show, direction):
@@ -94,10 +92,7 @@ class CalendarPopUp(WaylandWindow):
         month = [day for day in Calendar().itermonthdays3(year, month)]
 
         # Pad month to 42 days so every grid is 7x6
-        while True:
-            if len(month) == 42:
-                break
-
+        while len(month) < 42:
             # Get last date, increase the day until its smaller than it should be
             y, m, d = month[-1]
             if d >= monthrange(y, m)[-1]:

@@ -8,7 +8,7 @@ class OverriddenDateTime(DateTime):
 
     def do_handle_press(self, _, event, *args):
         if event.button == 1:
-            toggle_visibility(calendar)
+            utils.toggle_visibility(calendar)
 
 
 # removing this and just styling the button causes them to get styled late when the bar is started
@@ -26,7 +26,7 @@ class OverriddenWorkspaces(HyprlandWorkspaces):
                     label=f"{workspace_id}",
                     style_classes=["workspace-button", "cool-button"],
                 )
-                for workspace_id in range(1, Config.number_of_workspaces + 1)
+                for workspace_id in range(1, config.window_manager.number_of_workspaces + 1)
             ]
         )
 

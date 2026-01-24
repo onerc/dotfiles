@@ -6,15 +6,15 @@ from fabricators import psutil_fabricator
 class NetworkInfo(Button):
     def __init__(self):
         self.network_icon_stack = Stack(transition_type="slide-up-down")
-        for status in [
+        for status in (
             "network-wired-acquiring",
             "network-wired",
             "network-wired-disconnected",
-        ]:
+        ):
             self.network_icon_stack.add_named(
                 Image(
                     icon_name=f"{status}-symbolic",
-                    icon_size=Config.icon_size,
+                    icon_size=config.eye_candy.icon_size,
                     name="icon",
                 ),
                 name=status,

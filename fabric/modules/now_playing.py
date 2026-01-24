@@ -24,7 +24,7 @@ class NowPlaying(Button):
 
     def update_label(self, fabricator, value):
         status, *other_info = value.split(r"\n")
-        toggle_style_class(self, status != "Playing", "passive")
+        utils.toggle_style_class(self, status != "Playing", "passive")
         self.now_playing_label.set_label(self.label_handler(other_info))
 
     def label_handler(self, value):

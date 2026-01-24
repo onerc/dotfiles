@@ -28,14 +28,15 @@ from calendar import Calendar, day_abbr, month_name, monthrange
 from datetime import datetime
 
 from difflib import SequenceMatcher
-from json import loads
+from json import loads, load
 from loguru import logger
 from pathlib import PurePath
 from random import choice
 from socket import gethostname
 from thefuzz import fuzz, process
 from time import sleep
+from types import SimpleNamespace
 import psutil
 
 from config import *
-from utils import *
+import utils

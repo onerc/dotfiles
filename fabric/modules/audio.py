@@ -7,13 +7,13 @@ class SpeakerVolume(Button):
 
         self.icon_stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
-        for audio_level in ["overamplified", "high", "medium", "low", "muted"]:
+        for audio_level in ("overamplified", "high", "medium", "low", "muted"):
             self.icon_stack.add_named(
                 Image(
                     icon_name=f"audio-volume-{audio_level}-symbolic",
-                    icon_size=Config.icon_size,
+                    icon_size=config.eye_candy.icon_size,
                     name="icon",
                 ),
                 name=audio_level,
@@ -21,9 +21,9 @@ class SpeakerVolume(Button):
 
         self.label_stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
-        for volume_step in range(100, -10, -Config.speaker_volume_increment):
+        for volume_step in range(100, -10, -config.audio.speaker_volume_increment):
             self.label_stack.add_named(
                 Label(label=f"%{volume_step}", style_classes="revealer-label"),
                 name=f"{volume_step}",
@@ -36,7 +36,7 @@ class SpeakerVolume(Button):
         self.revealer = Revealer(
             child=self.label_stack,
             transition_type="slide-left",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
 
         super().__init__(
@@ -55,23 +55,23 @@ class SpeakerVolume(Button):
         self.add_events("scroll")
 
     def scroll_handler(self, widget, event):
-        if self.audio.speaker.name != Config.unwanted_sink:
+        if self.audio.speaker.name != config.audio.unwanted_sink:
             match not event.direction:
                 case 0:
-                    self.audio.speaker.volume -= Config.speaker_volume_increment
+                    self.audio.speaker.volume -= config.audio.speaker_volume_increment
                 case 1:
-                    self.audio.speaker.volume += Config.speaker_volume_increment
+                    self.audio.speaker.volume += config.audio.speaker_volume_increment
 
     def mute_handler(self, *args):
         self.audio.speaker.muted = not self.audio.speaker.muted
 
     def label_and_icon_handler(self, *args):
         # fix audio to prevent "Gtk-WARNING **: 21:04:00.921: Child name '43' not found in GtkStack"
-        if round(self.audio.speaker.volume) % Config.speaker_volume_increment:
+        if round(self.audio.speaker.volume) % config.audio.speaker_volume_increment:
             self.audio.speaker.volume = round(self.audio.speaker.volume, -1)
 
         match self.audio.speaker.name:
-            case Config.unwanted_sink:
+            case config.audio.unwanted_sink:
                 label = "N/A"
                 icon = "muted"
             case _:
@@ -80,7 +80,7 @@ class SpeakerVolume(Button):
 
         self.label_stack.set_visible_child_name(label)
         self.icon_stack.set_visible_child_name(icon)
-        toggle_style_class(self.label_stack, self.audio.speaker.muted, "passive")
+        utils.toggle_style_class(self.label_stack, self.audio.speaker.muted, "passive")
 
     def icon_name_handler(self):
         if self.audio.speaker.muted:
@@ -104,13 +104,13 @@ class MicVolume(Button):
 
         self.icon_stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
-        for volume_level in ["high", "medium", "low", "muted"]:
+        for volume_level in ("high", "medium", "low", "muted"):
             self.icon_stack.add_named(
                 Image(
                     icon_name=f"microphone-sensitivity-{volume_level}-symbolic",
-                    icon_size=Config.icon_size,
+                    icon_size=config.eye_candy.icon_size,
                     name="icon",
                 ),
                 name=volume_level,
@@ -118,9 +118,9 @@ class MicVolume(Button):
 
         self.label_stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
-        for volume_step in range(100, -10, -Config.microphone_volume_increment):
+        for volume_step in range(100, -10, -config.audio.microphone_volume_increment):
             self.label_stack.add_named(
                 Label(label=f"%{volume_step}", style_classes="revealer-label"),
                 name=f"{volume_step}",
@@ -132,7 +132,7 @@ class MicVolume(Button):
         self.revealer = Revealer(
             child=self.label_stack,
             transition_type="slide-left",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
 
         super().__init__(
@@ -154,9 +154,9 @@ class MicVolume(Button):
         if self.audio.microphone:
             match event.direction:
                 case 1:
-                    self.audio.microphone.volume -= Config.microphone_volume_increment
+                    self.audio.microphone.volume -= config.audio.microphone_volume_increment
                 case 0:
-                    self.audio.microphone.volume += Config.microphone_volume_increment
+                    self.audio.microphone.volume += config.audio.microphone_volume_increment
         else:
             self.mic_not_found()
 
@@ -167,13 +167,13 @@ class MicVolume(Button):
             self.mic_not_found()
 
     def label_and_icon_handler(self, *args):
-        if round(self.audio.microphone.volume) % Config.microphone_volume_increment:
+        if round(self.audio.microphone.volume) % config.audio.microphone_volume_increment:
             self.audio.microphone.volume = round(self.audio.microphone.volume, -1)
         self.label_stack.set_visible_child_name(
             f"{round(self.audio.microphone.volume)}"
         )
         self.icon_stack.set_visible_child_name(self.icon_name_handler())
-        toggle_style_class(self.label_stack, self.audio.microphone.muted, "passive")
+        utils.toggle_style_class(self.label_stack, self.audio.microphone.muted, "passive")
 
     def icon_name_handler(self):
         if self.audio.microphone.muted:
@@ -199,13 +199,13 @@ class AudioOutputSwitch(Button):
 
         self.stack = Stack(
             transition_type="slide-up-down",
-            transition_duration=Config.transition_duration,
+            transition_duration=config.eye_candy.transition_duration,
         )
-        for icon in ["video-display", "audio-headphones", "dialog-error"]:
+        for icon in ("video-display", "audio-headphones", "dialog-error"):
             self.stack.add_named(
                 Image(
                     icon_name=f"{icon}-symbolic",
-                    icon_size=Config.icon_size,
+                    icon_size=config.eye_candy.icon_size,
                     name="icon",
                 ),
                 name=icon,
@@ -219,9 +219,9 @@ class AudioOutputSwitch(Button):
 
     def icon_handler(self, *args):
         icon_dict = {
-            Config.headphones_name: Config.headphone_icon,
-            Config.speaker_name: Config.speaker_icon,
-            Config.unwanted_sink: Config.unwanted_sink_icon,
+            config.audio.headphones_name: config.icons.headphone_icon,
+            config.audio.speaker_name: config.icons.speaker_icon,
+            config.audio.unwanted_sink: config.icons.unwanted_sink_icon,
         }
         self.stack.set_visible_child_name(icon_dict[self.audio.speaker.name])
 
