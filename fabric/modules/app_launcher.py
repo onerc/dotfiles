@@ -10,18 +10,18 @@ class AppLauncherPopUp(WaylandWindow):
             ),
             key=str.lower,
         )
-
+        self.best_match = None
         self.matchbox = Box(orientation="v", name="app-launcher-box")
         self.entry = Entry(
             notify_text=lambda entry, *args: self.populate_matchbox(entry.get_text()),
-            on_activate=lambda *args: self.run_the_match(),
+            on_activate=lambda *args: self.run_the_match(self.best_match),
             name="app-launcher-entry",
         )
 
         super().__init__(
             anchor="top center",
             child=Box(orientation="v", children=[self.entry, self.matchbox]),
-            keyboard_mode="on-demand",
+            keyboard_mode="exclusive",
             monitor=config.hardware.favorite_monitor_index,
             name="app-launcher-window",
             title="app-launcher",
@@ -58,10 +58,13 @@ class AppLauncherPopUp(WaylandWindow):
 
     def populate_matchbox(self, entry_text):
         utils.destroy_useless_children(self.matchbox, 0)
-        if not entry_text:
+        if not entry_text.strip():  # prevent whitespaces
+            self.best_match = None
             return
 
-        for match in self.find_and_tweak_matches(entry_text):
+        for match in (matches := self.find_and_tweak_matches(entry_text)):
+            if not matches.index(match):  # get the best one
+                self.best_match = match
             self.matchbox.add(
                 Button(
                     child=self.create_and_style_label(entry_text, match),
@@ -69,14 +72,10 @@ class AppLauncherPopUp(WaylandWindow):
                 )
             )
 
-    def run_the_match(self, thingy_to_run=None):
-        try:
-            Hyprland.send_command(
-                f"dispatch exec {thingy_to_run if thingy_to_run else self.matchbox.get_children()[0].get_child().get_text()}"
-            )
-        except IndexError:  # entry empty, so matchbox empty
-            return
-        self.clear_entry_and_hide()
+    def run_the_match(self, thingy_to_run):
+        if thingy_to_run:
+            Hyprland.send_command(f"dispatch exec {thingy_to_run}")
+            self.clear_entry_and_hide()
 
     def clear_entry_and_hide(self):
         self.entry.delete_text(0, -1)

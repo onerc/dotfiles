@@ -18,7 +18,6 @@ from fabric.widgets.image import Image
 from fabric.widgets.label import Label
 from fabric.widgets.revealer import Revealer
 from fabric.widgets.overlay import Overlay
-from fabric.widgets.scrolledwindow import ScrolledWindow
 from fabric.widgets.stack import Stack
 from fabric.widgets.wayland import WaylandWindow
 
