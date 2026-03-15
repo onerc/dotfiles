@@ -5,6 +5,7 @@ from fabric.hyprland.service import Hyprland
 from fabric.hyprland.widgets import HyprlandWorkspaces, WorkspaceButton
 from fabric.utils import (
     exec_shell_command_async,
+    exec_shell_command,
     get_relative_path,
     set_stylesheet_from_file,
 )
