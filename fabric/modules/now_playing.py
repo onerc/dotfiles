@@ -46,18 +46,16 @@ class NowPlaying(Button):
 
     @staticmethod
     def on_scroll(widget, event):
-        # sometimes running these async causes errors, idk why 20/02/2025
         match event.direction:
             case 0:
-                exec_shell_command("playerctl next")
+                exec_shell_command_async("playerctl next")
             case 1:
-                exec_shell_command("playerctl previous")
+                exec_shell_command_async("playerctl previous")
 
     @staticmethod
     def on_button_press(widget, event):
-        # sometimes running these async causes errors, idk why 20/02/2025
         match event.button:
             case 1:
-                exec_shell_command("playerctl play-pause")
+                exec_shell_command_async("playerctl play-pause")
             case 2:
-                exec_shell_command("playerctl stop")
+                exec_shell_command_async("playerctl stop")

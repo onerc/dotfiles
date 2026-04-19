@@ -13,7 +13,7 @@ class AppLauncherPopUp(WaylandWindow):
         self.best_match = None
         self.matchbox = Box(orientation="v", name="app-launcher-box")
         self.entry = Entry(
-            notify_text=lambda entry, *args: self.populate_matchbox(entry.get_text()),
+            notify_text=lambda entry, *args: self.find_and_tweak_matches(entry.get_text()),
             on_activate=lambda *args: self.run_the_match(self.best_match),
             name="app-launcher-entry",
         )
@@ -42,35 +42,29 @@ class AppLauncherPopUp(WaylandWindow):
         return Label(markup=markup)
 
     def find_and_tweak_matches(self, entry):
-        matches = []
-
-        for match in process.extract(
-            query=entry,
-            choices=self.app_list,
-            scorer=lambda entry, match: fuzz.WRatio(entry, match)
-            + (
-                69 if match.startswith(entry) else 0
-            ),  # priotize match if it starts with specific letter
-        ):
-            if match[1]:  # if score is not 0
-                matches.append(match[0])
-        return matches
-
-    def populate_matchbox(self, entry_text):
         utils.destroy_useless_children(self.matchbox, 0)
-        if not entry_text.strip():  # prevent whitespaces
+        if not entry.strip():  # prevent whitespaces
             self.best_match = None
             return
+        matches = process.extract(
+            query=entry,
+            choices=self.app_list,
+            scorer=lambda entry, match: (
+                fuzz.WRatio(entry, match) + (69 if match.startswith(entry) else 0)
+            ),
+        )
 
-        for match in (matches := self.find_and_tweak_matches(entry_text)):
-            if not matches.index(match):  # get the best one
-                self.best_match = match
-            self.matchbox.add(
-                Button(
-                    child=self.create_and_style_label(entry_text, match),
-                    on_clicked=lambda *args, value=match: self.run_the_match(value),
+        self.best_match = matches[0][0]
+
+        # populate matchbox
+        for match in matches:
+            if match[1]:  # if score is not 0
+                self.matchbox.add(
+                    Button(
+                        child=self.create_and_style_label(entry, match[0]),
+                        on_clicked=lambda *args, value=match: self.run_the_match(value),
+                    )
                 )
-            )
 
     def run_the_match(self, thingy_to_run):
         if thingy_to_run:

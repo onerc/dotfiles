@@ -5,7 +5,6 @@ from fabric.hyprland.service import Hyprland
 from fabric.hyprland.widgets import HyprlandWorkspaces, WorkspaceButton
 from fabric.utils import (
     exec_shell_command_async,
-    exec_shell_command,
     get_relative_path,
     set_stylesheet_from_file,
 )
@@ -36,6 +35,7 @@ from socket import gethostname
 from thefuzz import fuzz, process
 from time import sleep
 from types import SimpleNamespace
+import subprocess
 import psutil
 
 from config import *
