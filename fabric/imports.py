@@ -35,7 +35,6 @@ from socket import gethostname
 from thefuzz import fuzz, process
 from time import sleep
 from types import SimpleNamespace
-import subprocess
 import psutil
 
 from config import *

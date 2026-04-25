@@ -26,9 +26,11 @@ class OverriddenWorkspaces(HyprlandWorkspaces):
                     label=f"{workspace_id}",
                     style_classes=["workspace-button", "cool-button"],
                 )
-                for workspace_id in range(1, config.window_manager.number_of_workspaces + 1)
+                for workspace_id in range(
+                    1, config.window_manager.number_of_workspaces + 1
+                )
             ]
         )
 
-    def scroll_handler(self, _, event):
+    def do_handle_scroll(self, _, event):
         pass
