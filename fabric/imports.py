@@ -21,7 +21,8 @@ from fabric.widgets.overlay import Overlay
 from fabric.widgets.stack import Stack
 from fabric.widgets.wayland import WaylandWindow
 
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, Playerctl
+from gi import require_version
 
 from calendar import Calendar, day_abbr, month_name, monthrange
 from datetime import datetime
