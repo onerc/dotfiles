@@ -64,7 +64,7 @@ class NowPlaying(Button):
         self.now_playing_label.set_label(choice(self.notes))
         self.now_playing_label.add_style_class("passive")
 
-    @utils.suppress_exceptions(AttributeError)
+    @utils.suppress_exceptions((AttributeError, GLib.GError))
     def on_scroll(self, widget, event):
         match event.direction:
             case 0:

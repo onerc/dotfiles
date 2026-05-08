@@ -1,3 +1,4 @@
+from fabric.utils import monitor_file
 from modules.audio import SpeakerVolume, MicVolume, AudioOutputSwitch
 from modules.now_playing import NowPlaying
 from modules.power import Power
@@ -46,7 +47,15 @@ class barbar(WaylandWindow):
 
 if __name__ == "__main__":
     bar = Application(window=barbar(), open_inspector=False)
+    bar.style_monitor = monitor_file(get_relative_path("so_styling_much_wow"))
+    bar.style_monitor.connect(
+        "changed",
+        lambda *args: bar.set_stylesheet_from_file(
+            file_path=get_relative_path("so_styling_much_wow/style.css")
+        ),
+    )
     bar.set_stylesheet_from_file(
         file_path=get_relative_path("so_styling_much_wow/style.css")
     )
+
     bar.run()
