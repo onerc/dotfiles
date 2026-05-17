@@ -1,6 +1,6 @@
 from fabric.utils import monitor_file
 from modules.audio import SpeakerVolume, MicVolume, AudioOutputSwitch
-from modules.now_playing import NowPlaying
+from modules.now_playing import NowPlaying, OldNowPlaying
 from modules.power import Power
 from modules.hardware_info import NetworkInfo
 
@@ -33,7 +33,7 @@ class barbar(WaylandWindow):
                 ]
             ),
             end_children=[
-                NowPlaying(),
+                OldNowPlaying(),
                 ToggleRemoveDeviceVisibility(),
                 MicVolume(),
                 SpeakerVolume(),
@@ -47,15 +47,13 @@ class barbar(WaylandWindow):
 
 if __name__ == "__main__":
     bar = Application(window=barbar(), open_inspector=False)
-    bar.style_monitor = monitor_file(get_relative_path("so_styling_much_wow"))
+    bar.style_monitor = monitor_file(get_relative_path("style.css"))
     bar.style_monitor.connect(
         "changed",
         lambda *args: bar.set_stylesheet_from_file(
-            file_path=get_relative_path("so_styling_much_wow/style.css")
+            file_path=get_relative_path("style.css")
         ),
     )
-    bar.set_stylesheet_from_file(
-        file_path=get_relative_path("so_styling_much_wow/style.css")
-    )
+    bar.set_stylesheet_from_file(file_path=get_relative_path("style.css"))
 
     bar.run()

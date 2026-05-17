@@ -11,20 +11,15 @@ class OverriddenDateTime(DateTime):
             utils.toggle_visibility(calendar)
 
 
-# removing this and just styling the button causes them to get styled late when the bar is started
-class OverriddenWorkspaceButton(WorkspaceButton):
-    def do_bake_label(self):
-        self.children = Label(self._label.format(button=self))
-
-
 class OverriddenWorkspaces(HyprlandWorkspaces):
     def __init__(self):
         super().__init__(
             buttons=[
-                OverriddenWorkspaceButton(
+                WorkspaceButton(
                     id=workspace_id,
                     label=f"{workspace_id}",
                     style_classes=["workspace-button", "cool-button"],
+                    style="padding:0 0.45rem"
                 )
                 for workspace_id in range(
                     1, config.window_manager.number_of_workspaces + 1
