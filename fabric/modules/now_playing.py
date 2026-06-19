@@ -128,7 +128,6 @@ class OldNowPlaying(Button):
 
     @staticmethod
     def on_scroll(widget, event):
-
         match event.direction:
             case 0:
                 exec_shell_command_async("playerctl next")

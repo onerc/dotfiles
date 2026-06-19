@@ -13,7 +13,9 @@ class AppLauncherPopUp(WaylandWindow):
         self.best_match = None
         self.matchbox = Box(orientation="v", name="app-launcher-box")
         self.entry = Entry(
-            notify_text=lambda entry, *args: self.find_and_tweak_matches(entry.get_text()),
+            notify_text=lambda entry, *args: self.find_and_tweak_matches(
+                entry.get_text()
+            ),
             on_activate=lambda *args: self.run_the_match(self.best_match),
             name="app-launcher-entry",
         )
@@ -68,7 +70,7 @@ class AppLauncherPopUp(WaylandWindow):
 
     def run_the_match(self, thingy_to_run):
         if thingy_to_run:
-            Hyprland.send_command(f"dispatch exec {thingy_to_run}")
+            Hyprland.send_command(f'dispatch hl.dsp.exec_cmd("{thingy_to_run}")') # hacky but lua sucks
             self.clear_entry_and_hide()
 
     def clear_entry_and_hide(self):

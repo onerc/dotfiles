@@ -223,7 +223,8 @@ class AudioOutputSwitch(Button):
             config.audio.speaker_name: config.icons.speaker_icon,
             config.audio.unwanted_sink: config.icons.unwanted_sink_icon,
         }
-        self.stack.set_visible_child_name(icon_dict[self.audio.speaker.name])
+        if self.audio.speaker.name != "auto_null":
+            self.stack.set_visible_child_name(icon_dict[self.audio.speaker.name])
 
     def switch_output(self, *args):
         for speaker in self.audio.speakers:

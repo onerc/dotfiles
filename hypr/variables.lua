@@ -1,0 +1,2 @@
+mod = "SUPER"
+terminal = "alacritty"

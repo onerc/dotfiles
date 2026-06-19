@@ -30,13 +30,13 @@ class Power(Button):
             on_button_release_event=lambda *args: self.lock_handler(
                 *args, is_pressed=False
             ),
-            on_clicked=lambda *args: self.on_clicked(),
+            on_clicked=self.on_clicked,
             on_scroll_event=self.on_scroll,
             child=self.icon_stack,
         )
         self.add_events("scroll")
 
-    def on_clicked(self):
+    def on_clicked(self, *args):
         if not self.is_locked:
             exec_shell_command_async(self.current_action)
 

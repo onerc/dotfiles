@@ -26,4 +26,5 @@ def suppress_exceptions(exception_to_suppress):
                 pass
 
         return wrapper
+
     return inner

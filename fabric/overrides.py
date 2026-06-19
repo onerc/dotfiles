@@ -16,10 +16,13 @@ class OverriddenWorkspaces(HyprlandWorkspaces):
         super().__init__(
             buttons=[
                 WorkspaceButton(
+                    on_clicked=lambda *args, value=workspace_id: Hyprland.send_command(
+                        f"dispatch hl.dsp.focus({{workspace={value}}})"
+                    ),
                     id=workspace_id,
                     label=f"{workspace_id}",
                     style_classes=["workspace-button", "cool-button"],
-                    style="padding:0 0.45rem"
+                    style="padding:0 0.45rem",  # temporary solution, hopefully
                 )
                 for workspace_id in range(
                     1, config.window_manager.number_of_workspaces + 1
