@@ -13,9 +13,7 @@ hl.bind(
 hl.bind(
 	"escape",
 	hl.dsp.exec_cmd(
-		"venv/bin/python -m fabric execute default 'app_launcher.clear_entry_and_hide(); calendar.hide(); remove_device.hide()'",
-		{ non_consuming = True }
-	)
+		"venv/bin/python -m fabric execute default 'app_launcher.clear_entry_and_hide(); calendar.hide(); remove_device.hide()'"), { non_consuming = true }
 )
 
 hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -65,3 +63,7 @@ hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 hl.bind(mod .. " + f", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mod .. " + SHIFT + f", hl.dsp.window.fullscreen_state({ action = "toggle", internal = 0, client = 2 }))
+hl.bind(
+	mod .. " + s",
+	hl.dsp.exec_cmd('grim -g "$(slurp -b 00000080 -w 0)" - | swappy -f -')
+)

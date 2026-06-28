@@ -23,7 +23,6 @@ class NetworkInfo(Button):
         super().__init__(
             child=self.network_icon_stack,
             style_classes="cool-button",
-            # TODO on_clicked=
         )
         psutil_fabricator.connect("changed", self.label_handler)
 
