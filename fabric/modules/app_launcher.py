@@ -5,18 +5,18 @@ class AppLauncherPopUp(WaylandWindow):
     def __init__(self):
         self.app_list = sorted(
             set(
-                PurePath(f"{app.executable}").name  # stripping paths
+                PurePath(f"{app.executable}").name  # strip paths
                 for app in get_desktop_applications()
             ),
             key=str.lower,
         )
-        self.best_match = None
+        self.matches = list()
         self.matchbox = Box(orientation="v", name="app-launcher-box")
         self.entry = Entry(
             notify_text=lambda entry, *args: self.find_and_tweak_matches(
                 entry.get_text()
             ),
-            on_activate=lambda *args: self.run_the_match(self.best_match),
+            on_activate=lambda *args: self.run_the_match(self.matches[0][0]),
             name="app-launcher-entry",
         )
 
@@ -46,20 +46,14 @@ class AppLauncherPopUp(WaylandWindow):
     def find_and_tweak_matches(self, entry):
         utils.destroy_useless_children(self.matchbox, 0)
         if not entry.strip():  # prevent whitespaces
-            self.best_match = None
             return
-        matches = process.extract(
-            query=entry,
-            choices=self.app_list,
-            scorer=lambda entry, match: (
-                fuzz.WRatio(entry, match) + (69 if match.startswith(entry) else 0)
-            ),
-        )
 
-        self.best_match = matches[0][0]
+        self.entry.set_text(entry.lower())  # stop yelling
+
+        self.matches = sorted(process.extract(query=entry, choices=self.app_list))
 
         # populate matchbox
-        for match in matches:
+        for match in self.matches:
             if match[1]:  # if score is not 0
                 self.matchbox.add(
                     Button(
@@ -70,7 +64,7 @@ class AppLauncherPopUp(WaylandWindow):
 
     def run_the_match(self, thingy_to_run):
         if thingy_to_run:
-            Hyprland.send_command(f'dispatch hl.dsp.exec_cmd("{thingy_to_run}")') # hacky but lua sucks
+            Hyprland.send_command(f'dispatch hl.dsp.exec_cmd("{thingy_to_run}")')
             self.clear_entry_and_hide()
 
     def clear_entry_and_hide(self):
