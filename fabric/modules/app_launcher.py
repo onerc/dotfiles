@@ -10,13 +10,13 @@ class AppLauncherPopUp(WaylandWindow):
             ),
             key=str.lower,
         )
-        self.matches = list()
+        self.best_match = None
         self.matchbox = Box(orientation="v", name="app-launcher-box")
         self.entry = Entry(
             notify_text=lambda entry, *args: self.find_and_tweak_matches(
                 entry.get_text()
             ),
-            on_activate=lambda *args: self.run_the_match(self.matches[0][0]),
+            on_activate=lambda *args: self.run_the_match(self.best_match),
             name="app-launcher-entry",
         )
 
@@ -46,14 +46,21 @@ class AppLauncherPopUp(WaylandWindow):
     def find_and_tweak_matches(self, entry):
         utils.destroy_useless_children(self.matchbox, 0)
         if not entry.strip():  # prevent whitespaces
+            self.best_match = None
             return
 
         self.entry.set_text(entry.lower())  # stop yelling
 
-        self.matches = sorted(process.extract(query=entry, choices=self.app_list))
+        matches = sorted(
+            process.extract(query=entry, choices=self.app_list),
+            key=lambda match: match[1],
+            reverse=True,
+        )
 
+        self.best_match = matches[0][0]
+        print(matches)
         # populate matchbox
-        for match in self.matches:
+        for match in matches:
             if match[1]:  # if score is not 0
                 self.matchbox.add(
                     Button(
