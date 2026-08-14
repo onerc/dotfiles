@@ -16,9 +16,6 @@ class OverriddenWorkspaces(HyprlandWorkspaces):
         super().__init__(
             buttons=[
                 WorkspaceButton(
-                    on_clicked=lambda *args, value=workspace_id: Hyprland.send_command(
-                        f"dispatch hl.dsp.focus({{workspace={value}}})"
-                    ),
                     id=workspace_id,
                     label=f"{workspace_id}",
                     style_classes=["workspace-button", "cool-button"],

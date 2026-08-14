@@ -103,7 +103,7 @@ class CalendarPopUp(WaylandWindow):
         # Split padded month into weeks
         month = [month[i : i + 7] for i in range(0, len(month), 7)]
 
-        month_grid = Gtk.Grid(visible=True)
+        month_grid = Grid()
 
         for week in month:
             for date in week:

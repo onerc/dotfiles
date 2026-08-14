@@ -8,12 +8,12 @@ hl.bind(mod .. " + p", hl.dsp.window.pseudo())
 hl.bind(mod .. " + t", hl.dsp.layout("togglesplit"))
 hl.bind(
 	mod .. " + d",
-	hl.dsp.exec_cmd("venv/bin/python -m fabric execute default 'app_launcher.show(); calendar.hide()'")
+	hl.dsp.exec_cmd("fabriccc/bin/python -m fabric execute default 'app_launcher.showtime(); calendar.hide()'")
 )
 hl.bind(
 	"escape",
 	hl.dsp.exec_cmd(
-		"venv/bin/python -m fabric execute default 'app_launcher.clear_entry_and_hide(); calendar.hide(); remove_device.hide()'"), { non_consuming = true }
+		"fabriccc/bin/python -m fabric execute default 'app_launcher.clear_entry_and_hide(); calendar.hide(); remove_device.hide()'"), { non_consuming = true }
 )
 
 hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))

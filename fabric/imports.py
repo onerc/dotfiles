@@ -14,6 +14,7 @@ from fabric.widgets.button import Button
 from fabric.widgets.centerbox import CenterBox
 from fabric.widgets.datetime import DateTime
 from fabric.widgets.entry import Entry
+from fabric.widgets.grid import Grid
 from fabric.widgets.image import Image
 from fabric.widgets.label import Label
 from fabric.widgets.revealer import Revealer

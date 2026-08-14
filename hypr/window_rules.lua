@@ -3,20 +3,17 @@ hl.animation({ leaf = "layers", enabled = true, speed = 3, bezier = "linear" })
 
 hl.layer_rule({
 	match = { namespace = "calendar" },
-	animation = "slide",
-	order = 1,
+	no_anim = true,
 })
 
 hl.layer_rule({
 	match = { namespace = "app-launcher" },
-	animation = "slide",
-	order = 1,
+	no_anim = true,
 })
 
 hl.layer_rule({
 	match = { namespace = "remove-device" },
-	animation = "slide top",
-	order = 1,
+	no_anim = true,
 })
 
 hl.curve("myBezier", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.05 } } })
