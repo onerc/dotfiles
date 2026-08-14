@@ -32,11 +32,11 @@ class AppLauncherPopUp(WaylandWindow):
         super().__init__(
             anchor="top center",
             child=Box(style="min-height: 1px", children=self.revealer),
-            #keyboard_mode="exclusive",
+            keyboard_mode="exclusive",
             monitor=config.hardware.favorite_monitor_index,
             name="app-launcher-window",
             title="app-launcher",
-            # visible=False,
+            visible=False,
         )
 
     @staticmethod
@@ -57,6 +57,8 @@ class AppLauncherPopUp(WaylandWindow):
         if not entry.strip():  # prevent whitespaces
             self.best_match = None
             return
+
+        self.entry.set_text(entry.lower())
 
         matches = sorted(
             process.extract(query=entry, choices=self.app_list),
@@ -88,22 +90,20 @@ class AppLauncherPopUp(WaylandWindow):
     def clear_entry_and_hide(self):
         self.revealer.set_reveal_child(False)
 
-        # GLib.timeout_add(
-        #     config.eye_candy.transition_duration,
-        #     lambda: (
-        #         self.hide(),
-        #         not self.revealer.child_revealed,
-        #     )[-1],
-        # )
+        GLib.timeout_add(
+            config.eye_candy.transition_duration,
+            lambda: (
+                self.hide(),
+                False,
+            )[-1],
+        )
         self.entry.delete_text(0, -1)
         utils.destroy_useless_children(self.matchbox, 0)
-        self.set_keyboard_mode("none")
 
     def showtime(self):
-        # self.show() # ram usage looks good but keeping the launcher always "visible" may be a bad idea, idk 14/08/2026
+        self.show()
         self.revealer.set_reveal_child(True)
         self.entry.grab_focus()
-        self.set_keyboard_mode("exclusive")
 
 
 app_launcher = AppLauncherPopUp()

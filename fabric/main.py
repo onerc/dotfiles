@@ -46,7 +46,7 @@ class barbar(WaylandWindow):
 
 
 if __name__ == "__main__":
-    bar = Application(window=barbar(), open_inspector=False)
+    bar = Application(window=barbar(), open_inspector=True)
     bar.style_monitor = monitor_file(get_relative_path("style.css"))
     bar.style_monitor.connect(
         "changed",

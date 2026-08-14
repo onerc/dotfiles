@@ -16,5 +16,5 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("obs --disable-shutdown-check", { workspace = "6 silent" })
 	hl.exec_cmd("alacritty -e sh -c 'fabriccc/bin/python .config/fabric/main.py'", { workspace = "10 silent" })
 	hl.exec_cmd("hyprctl setcursor macOS 24")
-	hl.exec_cmd("wl-clip-persist --clipboard both")
+	--hl.exec_cmd("wl-clip-persist --clipboard both") fucks up text selection
 end)
