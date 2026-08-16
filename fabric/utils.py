@@ -1,4 +1,5 @@
 from imports import *
+from hacky_widgets import SlidingWaylandWindow
 
 
 def toggle_style_class(
@@ -10,6 +11,10 @@ def toggle_style_class(
 
 def toggle_visibility(window: WaylandWindow) -> None:
     (window.hide if window.get_visible() else window.show)()
+
+
+def cooler_toggle_visibility(window: SlidingWaylandWindow) -> None:
+    (window.unslide if window.get_visible() else window.slide)()
 
 
 def destroy_useless_children(parent: Box, children_start_index: int) -> None:

@@ -8,7 +8,7 @@ class OverriddenDateTime(DateTime):
 
     def do_handle_press(self, _, event, *args):
         if event.button == 1:
-            utils.toggle_visibility(calendar)
+            utils.cooler_toggle_visibility(calendar)
 
 
 class OverriddenWorkspaces(HyprlandWorkspaces):

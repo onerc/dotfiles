@@ -1,7 +1,8 @@
 from imports import *
+from hacky_widgets import SlidingWaylandWindow
 
 
-class AppLauncherPopUp(WaylandWindow):
+class AppLauncherPopUp(SlidingWaylandWindow):
     def __init__(self):
         self.app_list = sorted(
             {
@@ -20,23 +21,16 @@ class AppLauncherPopUp(WaylandWindow):
             name="app-launcher-entry",
         )
 
-        self.revealer = Revealer(
-            transition_duration=config.eye_candy.transition_duration,
-            transition_type="slide-down",
-            child=Box(
-                orientation="v",
-                children=[self.entry, self.matchbox],
-            ),
-        )
-
         super().__init__(
             anchor="top center",
-            child=Box(style="min-height: 1px", children=self.revealer),
+            child=Box(orientation="v", children=[self.entry, self.matchbox]),
             keyboard_mode="exclusive",
             monitor=config.hardware.favorite_monitor_index,
             name="app-launcher-window",
+            revealer_transition_type="slide-down",
             title="app-launcher",
             visible=False,
+            widget_to_focus=self.entry,
         )
 
     @staticmethod
@@ -87,23 +81,14 @@ class AppLauncherPopUp(WaylandWindow):
             Hyprland.send_command(f'dispatch hl.dsp.exec_cmd("{thingy_to_run}")')
             self.clear_entry_and_hide()
 
-    def clear_entry_and_hide(self):
-        self.revealer.set_reveal_child(False)
+    def slide(self):
+        super().slide()
+        self.entry.grab_focus()
 
-        GLib.timeout_add(
-            config.eye_candy.transition_duration,
-            lambda: (
-                self.hide(),
-                False,
-            )[-1],
-        )
+    def unslide(self):
+        super().unslide()
         self.entry.delete_text(0, -1)
         utils.destroy_useless_children(self.matchbox, 0)
-
-    def showtime(self):
-        self.show()
-        self.revealer.set_reveal_child(True)
-        self.entry.grab_focus()
 
 
 app_launcher = AppLauncherPopUp()

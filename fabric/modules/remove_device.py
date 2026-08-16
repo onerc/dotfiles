@@ -1,8 +1,9 @@
 from fabricators import device_fabricator, cache_fabricator
 from imports import *
+from hacky_widgets import SlidingWaylandWindow
 
 
-class RemoveDevicePopUp(WaylandWindow):
+class RemoveDevicePopUp(SlidingWaylandWindow):
     def __init__(self):
         self.visible_props = [
             prop
@@ -24,6 +25,7 @@ class RemoveDevicePopUp(WaylandWindow):
         self.formatted_json = []
 
         super().__init__(
+            revealer_transition_type="slide-down",
             anchor="top right",
             child=self.big_box,
             monitor=config.hardware.favorite_monitor_index,
@@ -77,9 +79,10 @@ class RemoveDevicePopUp(WaylandWindow):
                                 self.set_hidden_props_as_tooltip(disk)
                             ),
                             child=Box(children=self.populate_visible_props(disk)),
-                            on_clicked=lambda *args,
-                            value=disk: exec_shell_command_async(
-                                f"udisksctl {'unmount' if value['mountpoint'] else 'mount'} -b /dev/{value['name']}"
+                            on_clicked=lambda *args, value=disk: (
+                                exec_shell_command_async(
+                                    f"udisksctl {'unmount' if value['mountpoint'] else 'mount'} -b /dev/{value['name']}"
+                                )
                             ),
                         )
                     )
@@ -134,5 +137,5 @@ class ToggleRemoveDeviceVisibility(Button):
                 name="icon",
             ),
             style_classes="cool-button",
-            on_clicked=lambda *args: utils.toggle_visibility(remove_device),
+            on_clicked=lambda *args: utils.cooler_toggle_visibility(remove_device),
         )

@@ -1,7 +1,8 @@
 from imports import *
+from hacky_widgets import SlidingWaylandWindow
 
 
-class CalendarPopUp(WaylandWindow):
+class CalendarPopUp(SlidingWaylandWindow):
     def __init__(self):
         self.current_time = datetime.now()
         self.shown_month = self.current_time.month
@@ -20,6 +21,7 @@ class CalendarPopUp(WaylandWindow):
         )
 
         super().__init__(
+            revealer_transition_type="slide_down",
             title="calendar",
             anchor="top center",
             visible=False,
