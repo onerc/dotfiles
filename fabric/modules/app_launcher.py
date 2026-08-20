@@ -24,13 +24,11 @@ class AppLauncherPopUp(SlidingWaylandWindow):
         super().__init__(
             anchor="top center",
             child=Box(orientation="v", children=[self.entry, self.matchbox]),
-            keyboard_mode="exclusive",
             monitor=config.hardware.favorite_monitor_index,
             name="app-launcher-window",
             revealer_transition_type="slide-down",
             title="app-launcher",
             visible=False,
-            widget_to_focus=self.entry,
         )
 
     @staticmethod
@@ -79,16 +77,17 @@ class AppLauncherPopUp(SlidingWaylandWindow):
     def run_the_match(self, thingy_to_run):
         if thingy_to_run:
             Hyprland.send_command(f'dispatch hl.dsp.exec_cmd("{thingy_to_run}")')
-            self.clear_entry_and_hide()
+            self.unslide()
 
     def slide(self):
         super().slide()
+        self.set_keyboard_mode("exclusive")
         self.entry.grab_focus()
 
     def unslide(self):
         super().unslide()
+        self.set_keyboard_mode("none")
         self.entry.delete_text(0, -1)
-        utils.destroy_useless_children(self.matchbox, 0)
 
 
 app_launcher = AppLauncherPopUp()

@@ -27,9 +27,6 @@ class SlidingWaylandWindow(WaylandWindow):
         self.revealer.set_reveal_child(False)
 
         GLib.timeout_add(
-            config.eye_candy.transition_duration,
-            lambda: (
-                self.hide(),
-                False,
-            )[-1],
+            100,
+            lambda: (self.hide(), self.revealer.get_child_revealed())[-1],
         )
